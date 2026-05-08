@@ -22,7 +22,7 @@ Param(
 )
 
 # --- 1. Common Configuration ---
-$EnvironmentName  = "vcf910"
+$EnvironmentName  = "vcf910b"
 $FolderName       = "vcf910-blue"
 $iterationList    = (1..6)
 $ManagementVC     = 'chi-w01-vc01.set.lab'
@@ -88,8 +88,9 @@ if ($Build) {
         $vm | Get-HardDisk | Set-HardDisk -CapacityGB 40 -Confirm:$false | Out-Null
         
         $vm | New-HardDisk -CapacityGB $DataDiskSizeGB -Datastore $Datastore | New-ScsiController -Type ParaVirtual | Out-Null
-        $tempController = $vm | Get-ScsiController | Where-Object {$_.BusNumber -eq 1}
-        1..2 | ForEach-Object { $vm | New-HardDisk -CapacityGB $DataDiskSizeGB -Datastore $Datastore -Controller $tempController | Out-Null }
+        #$tempController = Get-VM $VMName | Get-ScsiController | Where-Object {$_.BusNumber -eq 1}
+        $tempController = Get-VM $VMName | Get-ScsiController -Name "SCSI controller 1" ## hacky, but this works!
+        1..2 | ForEach-Object { Get-VM $VMName | New-HardDisk -CapacityGB $DataDiskSizeGB -Datastore $Datastore -Controller $tempController | Out-Null }
 
         # Enable Nested HV
         $vmConfigSpec = New-Object VMware.Vim.VirtualMachineConfigSpec
