@@ -1,0 +1,267 @@
+{
+    "sddcId": "vcf9",
+    "workflowType": "VCF",
+    "hostSpecs": [
+        {
+            "hostname": "esx01.ire.set.lab",
+            "credentials": {
+                "username": "root",
+                "password": "VMware@123!"
+            },
+            "sslThumbprint": "23:46:64:5F:C7:96:CB:F9:9A:FE:8C:F1:9F:A1:16:B9:A8:2A:65:2C:DD:43:A0:8F:1D:B7:D6:D7:D3:6F:8F:8E"
+        },
+        {
+            "hostname": "esx02.ire.set.lab",
+            "credentials": {
+                "username": "root",
+                "password": "VMware@123!"
+            },
+            "sslThumbprint": "9A:9A:92:7A:2E:5F:AF:9A:1C:68:26:9C:59:10:1C:B4:84:95:77:20:B0:5C:8A:78:4D:EC:DE:79:00:08:A8:22"
+        },
+        {
+            "hostname": "esx03.ire.set.lab",
+            "credentials": {
+                "username": "root",
+                "password": "VMware@123!"
+            },
+            "sslThumbprint": "2D:C6:6D:2E:CF:7B:8E:76:F4:25:7E:13:47:68:01:51:EF:CB:49:A2:A7:41:4C:69:E1:F9:32:A6:13:E6:3B:9A"
+        },
+        {
+            "hostname": "esx04.ire.set.lab",
+            "credentials": {
+                "username": "root",
+                "password": "VMware@123!"
+            },
+            "sslThumbprint": "A4:52:EF:08:9B:99:C3:02:E1:C3:78:F2:6F:28:23:AB:EF:C9:DD:BF:59:28:EA:C2:6A:8D:E3:0F:F5:5F:49:4D"
+        },
+        {
+            "hostname": "esx05.ire.set.lab",
+            "credentials": {
+                "username": "root",
+                "password": "VMware@123!"
+            },
+            "sslThumbprint": "4D:5F:12:5A:89:25:76:74:CA:53:F5:3E:47:2C:6B:0F:D5:11:99:9A:50:0B:09:8D:E3:3B:4B:04:06:7E:06:41"
+        },
+        {
+            "hostname": "esx06.ire.set.lab",
+            "credentials": {
+                "username": "root",
+                "password": "VMware@123!"
+            },
+            "sslThumbprint": "63:4E:6A:01:D6:5F:92:60:CD:C7:32:4E:7D:0F:45:23:85:F9:19:12:0C:1F:5D:59:3C:36:CE:9D:AA:0A:AB:B4"
+        }
+    ],
+    "version": "9.0.0.0",
+    "vcenterSpec": {
+        "vcenterHostname": "vc.ire.set.lab",
+        "rootVcenterPassword": "VMware123!VMware123!",
+        "vmSize": "medium",
+        "ssoDomain": "vsphere.local",
+        "adminUserSsoPassword": "VMware123!VMware123!",
+        "useExistingDeployment": false
+    },
+    "clusterSpec": {
+        "datacenterName": "vcf9-dc01",
+        "clusterName": "vcf9-cl01"
+    },
+    "dvsSpecs": [
+        {
+            "dvsName": "vcf9-cl01-vds01",
+            "networks": [
+                "MANAGEMENT",
+                "VM_MANAGEMENT",
+                "VMOTION",
+                "VSAN"
+            ],
+            "mtu": 8000,
+            "nsxtSwitchConfig": {
+                "transportZones": [
+                    {
+                        "name": "VCF-Created-Overlay-Zone",
+                        "transportType": "OVERLAY"
+                    }
+                ]
+            },
+            "vmnicsToUplinks": [
+                {
+                    "id": "vmnic0",
+                    "uplink": "uplink1"
+                },
+                {
+                    "id": "vmnic1",
+                    "uplink": "uplink2"
+                }
+            ],
+            "nsxTeamings": [
+                {
+                    "policy": "LOADBALANCE_SRCID",
+                    "activeUplinks": [
+                        "uplink1",
+                        "uplink2"
+                    ]
+                }
+            ]
+        }
+    ],
+    "nsxtSpec": {
+        "nsxtManagers": [
+            {
+                "hostname": "nsx-mgmt-1.ire.set.lab"
+            }
+        ],
+        "nsxtManagerSize": "medium",
+        "vipFqdn": "nsx-mgmt.ire.set.lab",
+        "rootNsxtManagerPassword": "VMware123!VMware123!",
+        "nsxtAdminPassword": "VMware123!VMware123!",
+        "nsxtAuditPassword": "VMware123!VMware123!",
+        "transportVlanId": 403,
+        "ipAddressPoolSpec": {
+            "name": "vcf9-tep-pool-01",
+            "description": "host TEPs",
+            "subnets": [
+                {
+                    "ipAddressPoolRanges": [
+                        {
+                            "start": "10.40.3.201",
+                            "end": "10.40.3.241"
+                        }
+                    ],
+                    "cidr": "10.40.3.0/24",
+                    "gateway": "10.40.3.1"
+                }
+            ]
+        },
+        "skipNsxOverlayOverManagementNetwork": true,
+        "useExistingDeployment": false
+    },
+    "networkSpecs": [
+        {
+            "networkType": "MANAGEMENT",
+            "subnet": "10.40.0.0/24",
+            "gateway": "10.40.0.1",
+            "vlanId": 400,
+            "mtu": 1500,
+            "teamingPolicy": "loadbalance_loadbased",
+            "activeUplinks": [
+                "uplink1",
+                "uplink2"
+            ],
+            "portGroupKey": "vcf9-cl01-vds01-pg-esx-mgmt"
+        },
+        {
+            "networkType": "VM_MANAGEMENT",
+            "subnet": "10.40.0.0/24",
+            "gateway": "10.40.0.1",
+            "vlanId": 400,
+            "mtu": 8000,
+            "teamingPolicy": "loadbalance_loadbased",
+            "activeUplinks": [
+                "uplink1",
+                "uplink2"
+            ],
+            "portGroupKey": "vcf9-cl01-vds01-pg-vm-mgmt"
+        },
+        {
+            "networkType": "VMOTION",
+            "subnet": "10.40.1.0/24",
+            "gateway": "10.40.1.1",
+            "includeIpAddressRanges": [
+                {
+                    "startIpAddress": "10.40.1.201",
+                    "endIpAddress": "10.40.1.221"
+                }
+            ],
+            "vlanId": 401,
+            "mtu": 8000,
+            "teamingPolicy": "loadbalance_loadbased",
+            "activeUplinks": [
+                "uplink1",
+                "uplink2"
+            ],
+            "portGroupKey": "vcf9-cl01-vds01-pg-vmotion"
+        },
+        {
+            "networkType": "VSAN",
+            "subnet": "10.40.2.0/24",
+            "gateway": "10.40.2.1",
+            "includeIpAddressRanges": [
+                {
+                    "startIpAddress": "10.40.2.201",
+                    "endIpAddress": "10.40.2.221"
+                }
+            ],
+            "vlanId": 402,
+            "mtu": 8000,
+            "teamingPolicy": "loadbalance_loadbased",
+            "activeUplinks": [
+                "uplink1",
+                "uplink2"
+            ],
+            "portGroupKey": "vcf9-cl01-vds01-pg-vsan"
+        }
+    ],
+    "dnsSpec": {
+        "subdomain": "ire.set.lab",
+        "nameservers": [
+            "172.21.0.90"
+        ]
+    },
+    "ntpServers": [
+        "10.6.1.1"
+    ],
+    "sddcManagerSpec": {
+        "rootPassword": "VMware123!VMware123!",
+        "hostname": "sddc.ire.set.lab",
+        "sshPassword": "VMware123!VMware123!",
+        "localUserPassword": "VMware123!VMware123!",
+        "useExistingDeployment": false
+    },
+    "managementPoolName": "vcf9-np01",
+    "ceipEnabled": false,
+    "datastoreSpec": {
+        "vsanSpec": {
+            "datastoreName": "vcf9-cl01-ds-vsan01",
+            "vsanDedup": false,
+            "esaConfig": {
+                "enabled": false
+            },
+            "failuresToTolerate": 0
+        }
+    },
+    "vcfOperationsFleetManagementSpec": {
+        "hostname": "fleet.ire.set.lab",
+        "rootUserPassword": "VMware123!VMware123!",
+        "adminUserPassword": "VMware123!VMware123!",
+        "useExistingDeployment": false
+    },
+    "vcfOperationsSpec": {
+        "nodes": [
+            {
+                "hostname": "ops1.ire.set.lab",
+                "rootUserPassword": "VMware123!VMware123!",
+                "type": "master"
+            }
+        ],
+        "adminUserPassword": "VMware123!VMware123!",
+        "applianceSize": "small",
+        "useExistingDeployment": false
+    },
+    "vcfOperationsCollectorSpec": {
+        "hostname": "opscp.ire.set.lab",
+        "rootUserPassword": "VMware123!VMware123!",
+        "applianceSize": "small",
+        "useExistingDeployment": false
+    },
+    "vcfAutomationSpec": {
+        "hostname": "auto.ire.set.lab",
+        "adminUserPassword": "VMware123!VMware123!",
+        "ipPool": [
+            "10.40.0.227",
+            "10.40.0.228"
+        ],
+        "internalClusterCidr": "198.18.0.0/15",
+        "nodePrefix": "vcf",
+        "useExistingDeployment": false
+    },
+    "vcfInstanceName": "Foundation and Empire"
+}

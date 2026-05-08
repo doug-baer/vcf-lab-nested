@@ -1,0 +1,18 @@
+{
+    "hosts": [
+		{
+            "fqdn": "esx11.ire.set.lab",
+            "username": "root",
+            "password": "VMware@123!",
+            "storageType": "VSAN_ESA",
+            "networkPoolName": "vcf9-np01"
+        },
+		{
+            "fqdn": "esx12.ire.set.lab",
+            "username": "root",
+            "password": "VMware@123!",
+            "storageType": "VSAN_ESA",
+            "networkPoolName": "vcf9-np01"
+        }
+    ]
+}

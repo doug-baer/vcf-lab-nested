@@ -1,0 +1,277 @@
+{
+  "domainName": "w01",
+  "computeSpec": {
+    "clusterSpecs": [
+      {
+        "name": "cl01",
+        "advancedOptions": {
+          "highAvailability": {
+            "enabled": true
+          }
+        },
+        "datastoreSpec": {
+          "vsanDatastoreSpec": {
+            "licenseKey": null,
+            "datastoreName": "cl01-vsan01",
+            "esaConfig": {
+              "enabled": true,
+              "vsanMaxConfig": {
+                "enableVsanMax": false
+              }
+            }
+          }
+        },
+        "networkSpec": {
+          "nsxClusterSpec": {
+            "nsxTClusterSpec": {
+              "ipAddressPoolsSpec": [
+                {
+                  "description": "host TEPs-w01",
+                  "ignoreUnavailableNsxtCluster": false,
+                  "name": "w01-tep-pool",
+                  "subnets": [
+                    {
+                      "cidr": "10.40.3.0/24",
+                      "gateway": "10.40.3.1",
+                      "ipAddressPoolRanges": [
+                        {
+                          "start": "10.40.3.40",
+                          "end": "10.40.3.60"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "uplinkProfiles": [
+                {
+                  "name": "cl01-vds-uplink-profile-1",
+                  "teamings": [
+                    {
+                      "policy": "LOADBALANCE_SRCID",
+                      "activeUplinks": [
+                        "uplink-1",
+                        "uplink-2"
+                      ],
+                      "standByUplinks": null
+                    }
+                  ],
+                  "transportVlan": "403"
+                }
+              ]
+            }
+          },
+          "vdsSpecs": [
+            {
+              "name": "cl01-vds-01",
+              "mtu": 8000,
+              "portGroupSpecs": [
+                {
+                  "name": "cl01-vds-01-pg-mgmt",
+                  "transportType": "MANAGEMENT",
+                  "activeUplinks": [
+                    "uplink1",
+                    "uplink2"
+                  ],
+                  "teamingPolicy": "loadbalance_loadbased"
+                },
+                {
+                  "name": "cl01-vds-01-pg-vmotion",
+                  "transportType": "VMOTION",
+                  "activeUplinks": [
+                    "uplink1",
+                    "uplink2"
+                  ],
+                  "teamingPolicy": "loadbalance_loadbased"
+                },
+                {
+                  "name": "cl01-vds-01-pg-vsan",
+                  "transportType": "VSAN",
+                  "activeUplinks": [
+                    "uplink1",
+                    "uplink2"
+                  ],
+                  "teamingPolicy": "loadbalance_loadbased"
+                }
+              ],
+              "nsxtSwitchConfig": {
+                "transportZones": [
+                  {
+                    "name": "overlay-tz-nsx-w01",
+                    "transportType": "OVERLAY"
+                  }
+                ]
+              }
+            }
+          ],
+          "networkProfiles": [
+            {
+              "name": "networkConfigProfile",
+              "isDefault": true,
+              "nsxtHostSwitchConfigs": [
+                {
+                  "vdsName": "cl01-vds-01",
+                  "ipAddressPoolName": "w01-tep-pool",
+                  "uplinkProfileName": "cl01-vds-uplink-profile-1",
+                  "vdsUplinkToNsxUplink": [
+                    {
+                      "vdsUplinkName": "uplink1",
+                      "nsxUplinkName": "uplink-1"
+                    },
+                    {
+                      "vdsUplinkName": "uplink2",
+                      "nsxUplinkName": "uplink-2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "hostSpecs": [
+          {
+            "id": "4a237685-57f1-4527-b10d-77e9f66733f4",
+            "hostNetworkSpec": {
+              "vmNics": [
+                {
+                  "id": "vmnic0",
+                  "uplink": "uplink1",
+                  "vdsName": "cl01-vds-01"
+                },
+                {
+                  "id": "vmnic1",
+                  "uplink": "uplink2",
+                  "vdsName": "cl01-vds-01"
+                }
+              ]
+            },
+            "licenseKey": null
+          },
+          {
+            "id": "2615e684-df0e-4be2-b529-48cfc28870ab",
+            "hostNetworkSpec": {
+              "vmNics": [
+                {
+                  "id": "vmnic0",
+                  "uplink": "uplink1",
+                  "vdsName": "cl01-vds-01"
+                },
+                {
+                  "id": "vmnic1",
+                  "uplink": "uplink2",
+                  "vdsName": "cl01-vds-01"
+                }
+              ]
+            },
+            "licenseKey": null
+          },
+          {
+            "id": "69665cc3-6ed1-4c42-93ce-461f5320a3d7",
+            "hostNetworkSpec": {
+              "vmNics": [
+                {
+                  "id": "vmnic0",
+                  "uplink": "uplink1",
+                  "vdsName": "cl01-vds-01"
+                },
+                {
+                  "id": "vmnic1",
+                  "uplink": "uplink2",
+                  "vdsName": "cl01-vds-01"
+                }
+              ]
+            },
+            "licenseKey": null
+          },
+          {
+            "id": "f01694c8-7e0f-4fa4-8669-07b495bd6014",
+            "hostNetworkSpec": {
+              "vmNics": [
+                {
+                  "id": "vmnic0",
+                  "uplink": "uplink1",
+                  "vdsName": "cl01-vds-01"
+                },
+                {
+                  "id": "vmnic1",
+                  "uplink": "uplink2",
+                  "vdsName": "cl01-vds-01"
+                }
+              ]
+            },
+            "licenseKey": null
+          }
+        ],
+        "clusterImageId": "4a2a1667-ed6a-48d1-968d-e9eff3e5eedd",
+        "supervisorActivationSpec": {
+          "supervisorName": "clean-supervisor",
+          "serviceCidr": {
+            "address": "10.192.0.0",
+            "prefix": 16
+          },
+          "zoneName": "clean-zone-1",
+          "managementNetwork": {
+            "details": {
+              "vlanId": 400,
+              "gateway": "10.40.0.1",
+              "netMask": "255.255.255.0",
+              "vdsName": "cl01-vds-01"
+            },
+            "controlPlaneIpRange": {
+              "startIpAddress": "10.40.0.191",
+              "endIpAddress": "10.40.0.195"
+            }
+          },
+          "vpcNetwork": {
+            "privateTransitNetworkCidr": {
+              "address": "10.193.0.0",
+              "prefix": 16
+            },
+            "privateCidr": {
+              "address": "10.194.0.0",
+              "prefix": 16
+            },
+            "dnsServers": [
+              "172.21.0.90"
+            ],
+            "ntpServers": [
+              "10.6.1.1"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "nsxTSpec": {
+    "licenseKey": null,
+    "nsxManagerAdminPassword": "VMware123!VMware123!",
+    "nsxManagerAuditPassword": "VMware123!VMware123!",
+    "vipFqdn": "nsx-w01.ire.set.lab",
+    "nsxManagerSpecs": [
+      {
+        "name": "nsx-w01-1",
+        "networkDetailsSpec": {
+          "dnsName": "nsx-w01-1.ire.set.lab",
+          "gateway": "10.40.0.1",
+          "subnetMask": "255.255.255.0"
+        }
+      }
+    ],
+    "formFactor": "medium"
+  },
+  "vcenterSpec": {
+    "name": "vc-w01",
+    "rootPassword": "VMware123!VMware123!",
+    "datacenterName": "w01-DC",
+    "networkDetailsSpec": {
+      "dnsName": "vc-w01.ire.set.lab",
+      "gateway": "10.40.0.1",
+      "subnetMask": "255.255.255.0"
+    }
+  },
+  "ssoDomainSpec": {
+    "ssoDomainName": "clean.local",
+    "ssoDomainPassword": "VMware123!VMware123!"
+  },
+  "deployWithoutLicenseKeys": true
+}

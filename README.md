@@ -1,2 +1,13 @@
 # vcf-lab-nested
 Create vESX host infrastructure and foundational JSON for installing VCF into a lab
+
+Broken into 4 phases:
+1. Management Domain (Recovery Site VCF)
+2. Workload Domain (Recovery Site compute - default is HCI vSAN ESA datastore)
+3. (optional) vSAN Storage Cluster hosts for WLD if not using HCI
+4. VVF deployment (Protected Site)
+
+Each batch of host VMs is created using the "Build" script and then the VMs are moved to the trunk port using the Move script.
+This is to simplify physical-layer networking requirements.
+
+May 2026
