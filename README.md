@@ -12,4 +12,8 @@ Broken into 4 phases:
 Each batch of host VMs is created using the "Build" script and then the VMs are moved to the trunk port using the Move script.
 This is to simplify physical-layer networking requirements.
 
+Note that there will be two configurations: "blue" and "green" to represent two virtually identical environments. 
+
+TODO: Also note that there is a lot of opportunity to refactor the code to make it more efficient and reduce the duplication of code across files and phases to use parameters rather than completely identical code blocks. 
+
 May 2026
