@@ -1,5 +1,7 @@
 # vcf-lab-nested
-Create vESX host infrastructure and foundational JSON for installing VCF into a lab
+Create vESX host infrastructure and foundational JSON for installing VCF into a lab.
+
+The initial script created the VMs needed to install ESX in a test lab since getting all of the parts correct was tedious, especially when nesting vSAN ESA (virtual NVMe devices), but this also uses an http-based build server to stream the ESX image and kickstart it by passing initial boot values into UEFI. (that will be a separate project)
 
 Broken into 4 phases:
 1. Management Domain (Recovery Site VCF)
