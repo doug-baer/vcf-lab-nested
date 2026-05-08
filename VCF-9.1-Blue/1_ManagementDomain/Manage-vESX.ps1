@@ -105,32 +105,51 @@ if ($Build) {
         }
 
         # NVMe Controller Transformation
+        $vm = Get-VM -Name $VMName
         $devices = $vm.ExtensionData.Config.Hardware.Device
-        $scsiCtrl = $devices | Where-Object {$_.getType().Name -eq "ParaVirtualSCSIController" -and $_.BusNumber -eq 1}
+        $newControllerKey = -102
+        # Reconfigure 1 - Add NVMe Controller & Update Disk Mapping to new controller
+        $deviceChanges = @()
         $spec = New-Object VMware.Vim.VirtualMachineConfigSpec
-        $nvmeAdd = New-Object VMware.Vim.VirtualDeviceConfigSpec
-        $nvmeAdd.Operation = 'add'; $nvmeAdd.Device = New-Object VMware.Vim.VirtualNVMEController; $nvmeAdd.Device.Key = -102; $nvmeAdd.Device.BusNumber = 0
-        $spec.DeviceChange += $nvmeAdd
-
-        foreach ($dKey in $scsiCtrl.Device) {
-            $dev = $devices | Where-Object {$_.Key -eq $dKey}
-            $edit = New-Object VMware.Vim.VirtualDeviceConfigSpec
-            $edit.Operation = 'edit'; $edit.Device = $dev; $edit.Device.ControllerKey = -102
-            $spec.DeviceChange += $edit
+        #$scsiController = $devices | Where-Object {$_.getType().Name -eq "ParaVirtualSCSIController"}
+        $scsiController = $devices | Where-Object {$_.getType().Name -eq "ParaVirtualSCSIController"}  | Where-Object {$_.BusNumber -eq 1}
+        $scsiControllerDisks = $scsiController.device
+        $nvmeControllerAddSpec = New-Object VMware.Vim.VirtualDeviceConfigSpec
+        $nvmeControllerAddSpec.Device = New-Object VMware.Vim.VirtualNVMEController
+        $nvmeControllerAddSpec.Device.Key = $newControllerKey
+        $nvmeControllerAddSpec.Device.BusNumber = 0
+        $nvmeControllerAddSpec.Operation = 'add'
+        $deviceChanges+=$nvmeControllerAddSpec
+        foreach ($scsiControllerDisk in $scsiControllerDisks) {
+            $device = $devices | Where-Object {$_.key -eq $scsiControllerDisk}
+            $changeControllerSpec = New-Object VMware.Vim.VirtualDeviceConfigSpec
+            $changeControllerSpec.Operation = 'edit'
+            $changeControllerSpec.Device = $device
+            $changeControllerSpec.Device.key = $device.key
+            $changeControllerSpec.Device.unitNumber = $device.UnitNumber
+            $changeControllerSpec.Device.ControllerKey = $newControllerKey
+            $deviceChanges+=$changeControllerSpec
         }
+        $spec.deviceChange = $deviceChanges
         $task = $vm.ExtensionData.ReconfigVM_Task($spec)
         $task1 = Get-Task -Id ("Task-$($task.value)")
         $task1 | Wait-Task | Out-Null
 
-        $remSpec = New-Object VMware.Vim.VirtualMachineConfigSpec
-        $remDev = New-Object VMware.Vim.VirtualDeviceConfigSpec
-        $remDev.Operation = 'remove'; $remDev.Device = $scsiCtrl
-        $remSpec.DeviceChange += $remDev
-        $task = $vm.ExtensionData.ReconfigVM_Task($remSpec) 
+        # Reconfigure 2 - Remove PVSCSI Controller
+        $spec = New-Object VMware.Vim.VirtualMachineConfigSpec
+        $scsiControllerRemoveSpec = New-Object VMware.Vim.VirtualDeviceConfigSpec
+        $scsiControllerRemoveSpec.Operation = 'remove'
+        $scsiControllerRemoveSpec.Device = $scsiController
+        $spec.deviceChange = $scsiControllerRemoveSpec
+        $task = $vm.ExtensionData.ReconfigVM_Task($spec)
         $task2 = Get-Task -Id ("Task-$($task.value)")
         $task2 | Wait-Task | Out-Null
 
-        Set-VMResourceConfiguration -VM $vm -CpuReservationMhz $ReservationMHz -MemReservationGB $hostRam | Out-Null
+        Write-Host "Virtual machine '$VMName' created successfully with the specified configuration."
+        
+        # Add Reservations
+        $conf = Get-VMResourceConfiguration $vm
+        Set-VMResourceConfiguration -Conf $conf -CpuReservationMhz $ReservationMHz -MemReservationGB $hostRam | Out-Null
         if ($fireThemUp) { 
             Start-VM -VM $vm -RunAsync -Confirm:$false | Out-Null 
         }
