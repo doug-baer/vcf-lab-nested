@@ -78,7 +78,7 @@ if ($Build) {
         Write-Host "Creating Virtual Machine: $VMName..." -ForegroundColor White
         $vm = New-VM -Name $VMName -ResourcePool $ResourcePool -Datastore $Datastore -GuestId $GuestOS -NumCpu $CPU -CoresPerSocket $CoresPerCPU -MemoryGB $hostRam -Location $MyFolder
         
-        $vm | Set-VM -HardwareVersion "vmx-22" -Confirm:$false | Out-Null
+        $vm | Set-VM -HardwareVersion "vmx-22" -Confirm:$false -ErrorAction SilentlyContinue | Out-Null
         $bootspec = New-Object VMware.Vim.VirtualMachineConfigSpec
         $bootspec.Firmware = [VMware.Vim.GuestOsDescriptorFirmwareType]::efi
         $vm.ExtensionData.ReconfigVM($bootspec)
@@ -118,13 +118,17 @@ if ($Build) {
             $edit.Operation = 'edit'; $edit.Device = $dev; $edit.Device.ControllerKey = -102
             $spec.DeviceChange += $edit
         }
-        $vm.ExtensionData.ReconfigVM_Task($spec) | Wait-Task | Out-Null
+        $task = $vm.ExtensionData.ReconfigVM_Task($spec)
+        $task1 = Get-Task -Id ("Task-$($task.value)")
+        $task1 | Wait-Task | Out-Null
 
         $remSpec = New-Object VMware.Vim.VirtualMachineConfigSpec
         $remDev = New-Object VMware.Vim.VirtualDeviceConfigSpec
         $remDev.Operation = 'remove'; $remDev.Device = $scsiCtrl
         $remSpec.DeviceChange += $remDev
-        $vm.ExtensionData.ReconfigVM_Task($remSpec) | Wait-Task | Out-Null
+        $task = $vm.ExtensionData.ReconfigVM_Task($remSpec) 
+        $task2 = Get-Task -Id ("Task-$($task.value)")
+        $task2 | Wait-Task | Out-Null
 
         Set-VMResourceConfiguration -VM $vm -CpuReservationMhz $ReservationMHz -MemReservationGB $hostRam | Out-Null
         if ($fireThemUp) { 
