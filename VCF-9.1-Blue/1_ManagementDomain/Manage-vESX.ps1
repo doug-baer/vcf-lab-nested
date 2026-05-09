@@ -165,15 +165,13 @@ if ($Move) {
         return
     }
     
-    Disconnect-VIServer * -Confirm:$false
-
     foreach ( $iteration in $iterationList ) {
         $it = "{0:D2}" -f $iteration # make sure the ids are 2-digits
         $VMName = $EnvironmentName + "-esx" + $it #ensure the VM name references its environment
         $ESXiFQDN = "esx" + $it + '.' + $DomainName
 
         ### check for the vms prior to going crazy
-        Connect-VIServer -Server $ManagementVC -User $ManagementUser -Password $vc_password -Force | Out-Null
+        #Connect-VIServer -Server $ManagementVC -User $ManagementUser -Password $vc_password -Force | Out-Null
         $VmToolsStatus = (Get-VM $VMName | Get-View).Guest.ToolsStatus
         $vmExists = Get-VM -Name $VMName -ErrorAction SilentlyContinue
         if ( -Not $vmExists ) { 
@@ -191,10 +189,9 @@ if ($Move) {
             Disconnect-ViServer $esxHost -Force -Confirm:$false
         
             #Connect to the hosting vCenter for the VM and move its NICs to the trunk port
-            $management = Connect-VIServer -Server $ManagementVC -User $ManagementUser -Password $vc_password -Force
+            Connect-VIServer -Server $ManagementVC -User $ManagementUser -Password $vc_password -Force
             $MyFolder = Get-Folder -Name $FolderName # to make sure we change the correct VM
             Get-VM $VMName -Location $MyFolder | Get-NetworkAdapter | Set-Networkadapter -NetworkName $TrunkPortName -Confirm:$false
-            Disconnect-ViServer $management -Force -Confirm:$false
         
             # A check to make sure it is reachable after the changes
             if ("Success" -in (Test-Connection -ping -count 5 -IPv4 $ESXiFQDN -ResolveDestination).Status) { 
@@ -208,5 +205,5 @@ if ($Move) {
     }
 }
 
-#Disconnect-VIServer * -Force -Confirm:$false
+Disconnect-VIServer * -Force -Confirm:$false
 Write-Host "Finished." -ForegroundColor Cyan
