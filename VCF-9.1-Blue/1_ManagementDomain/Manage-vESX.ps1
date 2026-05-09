@@ -164,36 +164,50 @@ if ($Move) {
         Write-Error "CRITICAL: Trunk Port Group '$TrunkPortName' not found. Aborting."
         return
     }
+    
+    Disconnect-VIServer * -Confirm:$false
 
-    foreach ($iteration in $iterationList) {
-        $it = "{0:D2}" -f $iteration
-        $VMName = "$EnvironmentName-esx$it"
-        $ESXiFQDN = "esx$it.$DomainName"
+    foreach ( $iteration in $iterationList ) {
+        $it = "{0:D2}" -f $iteration # make sure the ids are 2-digits
+        $VMName = $EnvironmentName + "-esx" + $it #ensure the VM name references its environment
+        $ESXiFQDN = "esx" + $it + '.' + $DomainName
 
-        $vm = Get-VM -Name $VMName -Location $MyFolder -ErrorAction SilentlyContinue
-        if (-not $vm) { continue }
+        ### check for the vms prior to going crazy
+        $management = Connect-VIServer -Server $ManagementVC -User $ManagementUser -Password $vc_password -Force | Out-Null
 
-        $tools = $vm.ExtensionData.Guest.ToolsStatus
-        if (($tools -eq 'toolsOk') -and (Test-Connection -TcpPort 80 -Server $ESXiFQDN -Quiet)) {
-            Write-Host "Configuring internal VLANs for $ESXiFQDN..." -ForegroundColor Cyan
-            try {
-                $esxConn = Connect-VIServer -Server $ESXiFQDN -User 'root' -Password $esx_password -Force -ErrorAction Stop
-                Get-VirtualPortGroup -Server $esxConn -Name "VM Network" | Set-VirtualPortGroup -VlanId $VLAN -Confirm:$false | Out-Null
-                Get-VirtualPortGroup -Server $esxConn -Name "Management Network" | Set-VirtualPortGroup -VlanId $VLAN -Confirm:$false | Out-Null
-                Disconnect-VIServer $esxConn -Confirm:$false
-            } catch {
-                Write-Host "FAILED: $VMName connection error." -ForegroundColor Red
-                continue
+        $VmToolsStatus = (Get-VM $VMName | Get-View).Guest.ToolsStatus
+        $vmExists = Get-VM -Name $VMName -ErrorAction SilentlyContinue
+        if ( -Not $vmExists ) { 
+            Write-Host -ForegroundColor Yellow "*** VM with name $VMName does not exist, skipping ***"
+            continue 
+        }
+        Disconnect-ViServer $management -Confirm:$false
+
+        if ( ($VmToolsStatus -eq 'toolsOk') -and (Test-Connection -TcpPort 80 -IPv4 $ESXiFQDN -ResolveDestination) ) {
+            #Connect to the ESX OS within the VM and change its VLAN configuration
+            $esxHost = Connect-ViServer -Server $ESXiFQDN -username 'root' -password $esx_password -Force
+            Get-VirtualPortGroup -Name "VM Network" | Set-VirtualPortGroup -vlanId $VLAN
+            #Doing this will make the host inaccessible over the network
+            Get-VirtualPortGroup -Name "Management Network" | Set-VirtualPortGroup -vlanId $VLAN  -ErrorAction SilentlyContinue
+            Disconnect-ViServer $esxHost -Force -Confirm:$false
+        
+            #Connect to the hosting vCenter for the VM and move its NICs to the trunk port
+            $management = Connect-VIServer -Server $ManagementVC -User $ManagementUser -Password $vc_password -Force
+            $MyFolder = Get-Folder -Name $FolderName # to make sure we change the correct VM
+            Get-VM $VMName -Location $MyFolder | Get-NetworkAdapter | Set-Networkadapter -NetworkName $TrunkPortName -Confirm:$false
+            Disconnect-ViServer $management -Force -Confirm:$false
+        
+            # A check to make sure it is reachable after the changes
+            if ("Success" -in (Test-Connection -ping -count 5 -IPv4 $ESXiFQDN -ResolveDestination).Status) { 
+                Write-Host -ForegroundColor Green "***** All done for $VMName *****"
+            } else {
+                Write-Host "$VMName not currently reachable. You may need to check the console and the trunk configuration."    
             }
-
-            $vm | Get-NetworkAdapter | Set-Networkadapter -NetworkName $TrunkPortName -Confirm:$false | Out-Null
-            Start-Sleep -Seconds 2
-            if (Test-Connection -ComputerName $ESXiFQDN -Count 3 -Quiet) {
-                Write-Host "SUCCESS: $VMName is back online." -ForegroundColor Green
-            }
+        } else {
+            Write-Host "VM tools not ready or $VMName not all the way up yet. No changes made."
         }
     }
 }
 
-Disconnect-VIServer * -Confirm:$false
+Disconnect-VIServer * -Force -Confirm:$false
 Write-Host "Done." -ForegroundColor Cyan
