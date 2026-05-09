@@ -173,15 +173,14 @@ if ($Move) {
         $ESXiFQDN = "esx" + $it + '.' + $DomainName
 
         ### check for the vms prior to going crazy
-        $management = Connect-VIServer -Server $ManagementVC -User $ManagementUser -Password $vc_password -Force | Out-Null
-
+        Connect-VIServer -Server $ManagementVC -User $ManagementUser -Password $vc_password -Force | Out-Null
         $VmToolsStatus = (Get-VM $VMName | Get-View).Guest.ToolsStatus
         $vmExists = Get-VM -Name $VMName -ErrorAction SilentlyContinue
         if ( -Not $vmExists ) { 
             Write-Host -ForegroundColor Yellow "*** VM with name $VMName does not exist, skipping ***"
             continue 
         }
-        Disconnect-ViServer $management -Confirm:$false
+        Disconnect-ViServer * -Force -Confirm:$false
 
         if ( ($VmToolsStatus -eq 'toolsOk') -and (Test-Connection -TcpPort 80 -IPv4 $ESXiFQDN -ResolveDestination) ) {
             #Connect to the ESX OS within the VM and change its VLAN configuration
@@ -209,5 +208,5 @@ if ($Move) {
     }
 }
 
-Disconnect-VIServer * -Force -Confirm:$false
-Write-Host "Done." -ForegroundColor Cyan
+#Disconnect-VIServer * -Force -Confirm:$false
+Write-Host "Finished." -ForegroundColor Cyan
