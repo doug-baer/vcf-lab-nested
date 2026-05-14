@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
     Consolidated vESX Management Tool for Build and Move operations.
-    Updated: May 8, 2026
+    Updated: May 14, 2026
 
 .EXAMPLE
     .\Manage-vESX.ps1 -Build
@@ -22,8 +22,8 @@ Param(
 )
 
 # --- 1. Common Configuration ---
-$EnvironmentName  = "vcf910b"
-$FolderName       = "vcf910-blue"
+$EnvironmentName  = "green"
+$FolderName       = "vcf910-green"
 $iterationList    = (1..6)
 $ManagementVC     = 'chi-w01-vc01.set.lab'
 $ManagementUser   = 'administrator@wld.local'
@@ -33,7 +33,7 @@ $vc_password      = Get-Content -Path $vc_passwordFile -Raw
 # --- 2. Build Specific Variables ---
 $ClusterName      = "chi-w01"
 $Datastore        = "chi-w01-vsan01"
-$NetworkName      = "vcf9-vlan400"
+$NetworkName      = "vcf9-vlan450"
 $GuestOS          = "vmkernel9Guest"
 $RAM_GB           = 128
 $RAM_GB_AUTO      = 192 
@@ -41,15 +41,15 @@ $CPU              = 48
 $CoresPerCPU      = 8
 $DataDiskSizeGB   = 600
 $ReservationMHz   = 20000
-$webInstallHost   = '10.41.0.250'
+$webInstallHost   = '10.45.0.250'
 $fireThemUp       = $true
 
 # --- 3. Move Specific Variables ---
 $esx_passwordFile = "$PSScriptRoot\password_esx_root.txt"
 $esx_password     = Get-Content -Path $esx_passwordFile -Raw
-$DomainName       = "ire.set.lab"
-$VLAN             = 400
-$TrunkPortName    = 'vcf9-vlans400-407'
+$DomainName       = "green.set.lab"
+$VLAN             = 450
+$TrunkPortName    = 'vcf9-vlans450-459'
 
 # --- 4. Main Execution ---
 
