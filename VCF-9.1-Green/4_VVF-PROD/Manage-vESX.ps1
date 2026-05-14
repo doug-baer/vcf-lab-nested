@@ -33,7 +33,7 @@ $vc_password      = Get-Content -Path $vc_passwordFile -Raw
 # --- 2. Build Specific Variables ---
 $ClusterName      = "chi-w01"
 $Datastore        = "chi-w01-vsan01"
-$NetworkName      = "vcf9-vlan450" # these ultimately live on 459, but we'll build on 450 for now
+$NetworkName      = "vcf9-vlan459"
 $GuestOS          = "vmkernel9Guest"
 $RAM_GB           = 128
 $RAM_GB_AUTO      = 192 
