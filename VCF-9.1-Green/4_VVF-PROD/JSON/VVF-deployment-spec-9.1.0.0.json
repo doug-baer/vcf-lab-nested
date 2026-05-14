@@ -14,7 +14,7 @@
     "hostSpecs": [
         {
             "hostname": "w02-esx11.green.set.lab",
-            "sslThumbprint": "",
+            "sslThumbprint": "71:15:B7:DA:E7:F3:29:33:28:C1:4C:B3:50:57:DB:E0:54:7B:6A:65:F1:86:6E:69:76:45:94:47:7F:A1:E6:15",
             "credentials": {
                 "username": "root",
                 "password": "VMware@123!"
@@ -22,7 +22,7 @@
         },
         {
             "hostname": "w02-esx12.green.set.lab",
-            "sslThumbprint": "",
+            "sslThumbprint": "4F:F6:EE:B4:87:B6:2C:CD:A9:6B:DE:99:68:0D:5E:97:6A:C2:9E:EA:0B:01:1B:B1:DD:DD:FD:09:3B:93:09:67",
             "credentials": {
                 "username": "root",
                 "password": "VMware@123!"
@@ -30,7 +30,7 @@
         },
         {
             "hostname": "w02-esx13.green.set.lab",
-            "sslThumbprint": "",
+            "sslThumbprint": "D0:26:1C:AB:59:CC:16:E2:88:09:5F:5B:2B:DB:6F:6E:D2:A8:26:23:DE:13:76:70:94:F6:6F:85:4D:C0:7B:91",
             "credentials": {
                 "username": "root",
                 "password": "VMware@123!"
@@ -45,7 +45,7 @@
             "subnetMask": null,
             "includeIpAddress": null,
             "includeIpAddressRanges": null,
-            "vlanId": 2116,
+            "vlanId": "459",
             "teamingPolicy": "loadbalance_loadbased",
             "activeUplinks": [
                 "uplink1",
@@ -61,7 +61,7 @@
             "subnetMask": null,
             "includeIpAddress": null,
             "includeIpAddressRanges": null,
-            "vlanId": 2116,
+            "vlanId": "459",
             "teamingPolicy": "loadbalance_loadbased",
             "activeUplinks": [
                 "uplink1",
@@ -82,7 +82,7 @@
                     "endIpAddress": "10.45.1.218"
                 }
             ],
-            "vlanId": 401,
+            "vlanId": "451",
             "mtu": 8000,
             "teamingPolicy": "loadbalance_loadbased",
             "activeUplinks": [
@@ -104,7 +104,7 @@
                     "endIpAddress": "10.45.2.218"
                 }
             ],
-            "vlanId": 402,
+            "vlanId": "452",
             "mtu": 8000,
             "teamingPolicy": "loadbalance_loadbased",
             "activeUplinks": [

@@ -33,7 +33,7 @@ $vc_password      = Get-Content -Path $vc_passwordFile -Raw
 # --- 2. Build Specific Variables ---
 $ClusterName      = "chi-w01"
 $Datastore        = "chi-w01-vsan01"
-$NetworkName      = "vcf9-vlan450"
+$NetworkName      = "vcf9-vlan450" # these ultimately live on 459, but we'll build on 450 for now
 $GuestOS          = "vmkernel9Guest"
 $RAM_GB           = 128
 $RAM_GB_AUTO      = 192 
@@ -48,7 +48,7 @@ $fireThemUp       = $true
 $esx_passwordFile = "$PSScriptRoot\password_esx_root.txt"
 $esx_password     = Get-Content -Path $esx_passwordFile -Raw
 $DomainName       = "green.set.lab"
-$VLAN             = 450
+$VLAN             = 459
 $TrunkPortName    = 'vcf9-vlans450-459'
 
 # --- 4. Main Execution ---
