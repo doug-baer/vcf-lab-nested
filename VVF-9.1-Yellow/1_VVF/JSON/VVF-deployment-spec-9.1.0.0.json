@@ -40,8 +40,8 @@
     "networkSpecs": [
         {
             "networkType": "MANAGEMENT",
-            "subnet": "10.46.0.0/24",
-            "gateway": "10.46.0.1",
+            "subnet": "10.77.46.0/24",
+            "gateway": "10.77.46.1",
             "subnetMask": null,
             "includeIpAddress": null,
             "includeIpAddressRanges": null,
@@ -56,8 +56,8 @@
         },
         {
             "networkType": "VM_MANAGEMENT",
-            "subnet": "10.46.0.0/24",
-            "gateway": "10.46.0.1",
+            "subnet": "10.77.46.0/24",
+            "gateway": "10.77.46.1",
             "subnetMask": null,
             "includeIpAddress": null,
             "includeIpAddressRanges": null,
@@ -72,14 +72,14 @@
         },
         {
             "networkType": "VMOTION",
-            "subnet": "10.46.1.0/24",
-            "gateway": "10.46.1.1",
+            "subnet": "10.77.47.0/24",
+            "gateway": "10.77.47.1",
             "subnetMask": null,
             "includeIpAddress": null,
             "includeIpAddressRanges": [
                 {
-                    "startIpAddress": "10.46.1.201",
-                    "endIpAddress": "10.46.1.218"
+                    "startIpAddress": "10.77.47.201",
+                    "endIpAddress": "10.77.47.218"
                 }
             ],
             "vlanId": "461",
@@ -94,14 +94,14 @@
         },
         {
             "networkType": "VSAN",
-            "subnet": "10.46.2.0/24",
-            "gateway": "10.46.2.1",
+            "subnet": "10.77.48.0/24",
+            "gateway": "10.77.48.1",
             "subnetMask": null,
             "includeIpAddress": null,
             "includeIpAddressRanges": [
                 {
-                    "startIpAddress": "10.46.2.201",
-                    "endIpAddress": "10.46.2.218"
+                    "startIpAddress": "10.77.48.201",
+                    "endIpAddress": "10.77.48.218"
                 }
             ],
             "vlanId": "462",
@@ -118,8 +118,8 @@
     "vspClusterSpec": {
         "ipv4Pool": {
             "ipRange": {
-                "startIpAddress": "10.46.0.30",
-                "endIpAddress": "10.46.0.45"
+                "startIpAddress": "10.77.46.30",
+                "endIpAddress": "10.77.46.45"
             }
         },
         "platformFqdn": "vsp01.yellow.set.lab",
