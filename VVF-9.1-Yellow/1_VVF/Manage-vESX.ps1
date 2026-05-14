@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
     Consolidated vESX Management Tool for Build and Move operations.
-    Updated: May 8, 2026
+    Updated: May 14, 2026
 
 .EXAMPLE
     .\Manage-vESX.ps1 -Build
@@ -39,7 +39,7 @@ $RAM_GB           = 80
 $RAM_GB_AUTO      = 192
 $CPU              = 32
 $CoresPerCPU      = 8
-$DataDiskSizeGB   = 600
+$DataDiskSizeGB   = 500
 $ReservationMHz   = 20000
 $webInstallHost   = '10.45.0.250'
 $fireThemUp       = $true
