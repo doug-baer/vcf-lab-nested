@@ -24,7 +24,7 @@ Param(
 # --- 1. Common Configuration ---
 $EnvironmentName  = "yellow"
 $FolderName       = "contractor-yellow"
-$iterationList    = (1..4)
+$iterationList    = (1..3)
 $ManagementVC     = 'chi-w01-vc01.set.lab'
 $ManagementUser   = 'administrator@wld.local'
 $vc_passwordFile  = "$PSScriptRoot\password_vc_admin.txt"
@@ -36,7 +36,7 @@ $Datastore        = "chi-w01-vsan01"
 $NetworkName      = "vcf9-vlan460"
 $GuestOS          = "vmkernel9Guest"
 $RAM_GB           = 80
-$RAM_GB_AUTO      = 192 
+$RAM_GB_AUTO      = 192
 $CPU              = 32
 $CoresPerCPU      = 8
 $DataDiskSizeGB   = 600
@@ -49,7 +49,7 @@ $esx_passwordFile = "$PSScriptRoot\password_esx_root.txt"
 $esx_password     = Get-Content -Path $esx_passwordFile -Raw
 $DomainName       = "yellow.set.lab"
 $VLAN             = 460
-$TrunkPortName    = 'vcf9-vlans460-464'
+$TrunkPortName    = 'vcf9-vlans460-463'
 
 # --- 4. Main Execution ---
 
