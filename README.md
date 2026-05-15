@@ -17,8 +17,8 @@ To that end, ththe blue and green environments in project look to create two-sit
 
 1. Management Domain (Recovery Site VCF)
 2. Workload Domain (Recovery Site compute - default is HCI vSAN ESA datastore)
-3. (optional) vSAN Storage Cluster hosts for WLD if not using HCI
-4. VVF deployment (Protected Site)
+3. (optional) vSAN Storage Cluster hosts for WLD if not using HCI (shrink the disks in the WLD hosts if using Storage Cluster model)
+4. Protected Site (VVF deployment)
 
 Each batch of host VMs is created using the "Build" script and then the VMs are moved to the trunk port using the "Move" option.
 This is to simplify physical-layer networking requirements and not require that the access VLAN on the trunk be the same as the "management" VLAN.
@@ -26,7 +26,7 @@ This is to simplify physical-layer networking requirements and not require that 
 There are two configurations: "blue" and "green" to represent two virtually identical but separate environments -- one will be "live" while the other will be for test/dev or early access. In the future, I would like to provide parameters via YAML config files, but I am not there yet, so I have separate versions of the same script(s) in blue/green/yellow directtories for now.
 
 
-TODO: Also note that there is a lot of opportunity to refactor the code to make it more efficient and reduce the duplication of code across files and phases to use parameters rather than completely identical code. The "Manage-vESX.ps1" is a step in this direction but is still in progress. 
+TODO: There is a lot of opportunity to refactor the code to make it more efficient and reduce the duplication of code across files and phases to use parameters rather than completely identical code. The "Manage-vESX.ps1" is a step in this direction but is still in progress. I mostly change the CPU/RAM and disk parameters along with the set of host numbers for each type. This should be simple to build into a config.
 
 
-May 14, 2026
+May 15, 2026
