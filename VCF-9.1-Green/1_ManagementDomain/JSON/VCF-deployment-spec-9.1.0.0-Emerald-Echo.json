@@ -1,49 +1,202 @@
 {
+  "version": "9.1.0.0",
+  "vcfInstanceName": "Emerald Echo",
   "sddcId": "mgmt",
+  "ceipEnabled": true,
   "workflowType": "VCF",
+  "dnsSpec": { "subdomain": "green.set.lab", "nameservers": ["172.21.0.90"] },
+  "ntpServers": ["10.6.1.1"],
   "hostSpecs": [
     {
       "hostname": "esx01.green.set.lab",
-      "credentials": { "username": "root", "password": "VMware@123!" },
-      "sslThumbprint": "0C:33:34:06:C1:A7:5A:F0:A3:51:D3:E4:57:8C:D6:0C:F7:B1:80:8D:F2:51:74:EC:B2:A6:78:73:E5:D3:D1:A3"
+      "sslThumbprint": "64:1B:75:33:BA:C5:18:50:CF:11:3C:C3:44:B7:A0:9C:50:0F:35:EC:FD:CC:02:FD:4B:9D:58:1E:28:5D:A7:52",
+      "credentials": { "username": "root", "password": "VMware@123!" }
     },
     {
       "hostname": "esx02.green.set.lab",
-      "credentials": { "username": "root", "password": "VMware@123!" },
-      "sslThumbprint": "6C:B5:AB:08:2E:61:FA:6E:EE:16:9D:35:72:1D:37:D4:2A:F8:81:76:42:51:A8:43:8E:E8:DF:24:6D:60:C9:5C"
+      "sslThumbprint": "B1:88:4A:65:F6:B8:28:6D:C1:FF:26:0C:88:F1:E0:BD:87:CC:A9:F9:27:62:16:A8:6B:AA:1E:86:E8:58:7B:18",
+      "credentials": { "username": "root", "password": "VMware@123!" }
     },
     {
       "hostname": "esx03.green.set.lab",
-      "credentials": { "username": "root", "password": "VMware@123!" },
-      "sslThumbprint": "E1:B8:2C:01:4B:07:DA:C2:4A:D1:8D:62:E8:C6:9E:65:1B:69:66:54:FF:A0:1C:3D:35:CE:90:9C:CB:0D:01:67"
+      "sslThumbprint": "00:35:E9:52:B1:71:67:0E:5A:66:2A:43:EE:11:B8:A8:98:6D:67:99:92:CD:25:6A:D8:E9:43:70:0E:51:AD:4E",
+      "credentials": { "username": "root", "password": "VMware@123!" }
     },
     {
       "hostname": "esx04.green.set.lab",
-      "credentials": { "username": "root", "password": "VMware@123!" },
-      "sslThumbprint": "5F:69:9B:24:14:3A:76:00:18:7F:40:7D:98:B1:91:F9:93:59:0A:7E:56:DE:7C:DD:60:84:E6:FD:04:77:24:63"
+      "sslThumbprint": "E2:EE:E2:55:C6:97:D3:24:2F:DA:A5:69:99:1C:8D:34:A0:BA:EE:3A:1E:25:9F:43:DB:88:D4:6B:4C:65:C6:A7",
+      "credentials": { "username": "root", "password": "VMware@123!" }
     },
     {
       "hostname": "esx05.green.set.lab",
-      "credentials": { "username": "root", "password": "VMware@123!" },
-      "sslThumbprint": "A8:8F:0E:94:EE:E3:15:5F:01:43:EA:E9:91:70:0F:C6:E8:68:E1:ED:C0:ED:F3:03:81:F0:AE:77:D2:41:10:16"
+      "sslThumbprint": "92:2D:E4:1B:2A:83:55:D6:B9:A3:35:F5:EE:A2:45:63:94:75:AB:7B:B3:05:80:E4:A7:CD:2D:22:5D:58:D7:38",
+      "credentials": { "username": "root", "password": "VMware@123!" }
     },
     {
       "hostname": "esx06.green.set.lab",
-      "credentials": { "username": "root", "password": "VMware@123!" },
-      "sslThumbprint": "FF:54:EA:45:1E:DB:B0:7E:03:29:9D:36:8F:F7:66:69:19:E3:19:31:FA:15:41:62:31:2D:89:6B:EC:A3:7A:2D"
+      "sslThumbprint": "D9:B6:A6:DC:19:68:F7:CE:23:62:D6:7B:5D:6A:45:39:DC:ED:47:F6:E5:1E:8A:94:CF:F1:9D:3D:91:6F:DF:0C",
+      "credentials": { "username": "root", "password": "VMware@123!" }
     }
   ],
-  "version": "9.1.0.0",
+  "networkSpecs": [
+    {
+      "networkType": "MANAGEMENT",
+      "subnet": "10.45.0.0/24",
+      "gateway": "10.45.0.1",
+      "vlanId": 450,
+      "teamingPolicy": "loadbalance_loadbased",
+      "activeUplinks": ["uplink1", "uplink2"],
+      "portGroupKey": "mgmt-cl01-vds01-pg-esx-mgmt",
+      "ipAddressVersion": "IPv4",
+      "standbyUplinks": []
+    },
+    {
+      "networkType": "VM_MANAGEMENT",
+      "subnet": "10.45.0.0/24",
+      "gateway": "10.45.0.1",
+      "vlanId": 450,
+      "teamingPolicy": "loadbalance_loadbased",
+      "activeUplinks": ["uplink1", "uplink2"],
+      "portGroupKey": "mgmt-cl01-vds01-pg-vm-mgmt",
+      "ipAddressVersion": "IPv4",
+      "standbyUplinks": []
+    },
+    {
+      "networkType": "VMOTION",
+      "subnet": "10.45.1.0/24",
+      "gateway": "10.45.1.1",
+      "includeIpAddressRanges": [
+        { "startIpAddress": "10.45.1.201", "endIpAddress": "10.45.1.206" }
+      ],
+      "vlanId": 451,
+      "mtu": 8000,
+      "teamingPolicy": "loadbalance_loadbased",
+      "activeUplinks": ["uplink1", "uplink2"],
+      "portGroupKey": "mgmt-cl01-vds01-pg-vmotion",
+      "ipAddressVersion": "IPv4",
+      "standbyUplinks": []
+    },
+    {
+      "networkType": "VSAN",
+      "subnet": "10.45.2.0/24",
+      "gateway": "10.45.2.1",
+      "includeIpAddressRanges": [
+        { "startIpAddress": "10.45.2.201", "endIpAddress": "10.45.2.206" }
+      ],
+      "vlanId": 452,
+      "mtu": 8000,
+      "teamingPolicy": "loadbalance_loadbased",
+      "activeUplinks": ["uplink1", "uplink2"],
+      "portGroupKey": "mgmt-cl01-vds01-pg-vsan",
+      "ipAddressVersion": "IPv4",
+      "standbyUplinks": []
+    }
+  ],
+  "vspClusterSpec": {
+    "ipv4Pool": {
+      "ipRange": {
+        "startIpAddress": "10.45.0.31",
+        "endIpAddress": "10.45.0.60"
+      }
+    },
+    "platformFqdn": "vsp01.green.set.lab",
+    "instanceFqdn": "shared01.green.set.lab",
+    "fleetFqdn": "fleetlcm.green.set.lab",
+    "size": "small",
+    "name": "vmsp-01",
+    "internalClusterCidrIpv4": "198.18.0.0/15",
+    "systemUserPassword": "VMware123!VMware123!"
+  },
+  "vcfAutomationSpec": {
+    "ipPool": [
+      "10.45.0.81",
+      "10.45.0.82",
+      "10.45.0.83",
+      "10.45.0.84",
+      "10.45.0.85"
+    ],
+    "hostname": "auto.green.set.lab",
+    "platformFqdn": "auto-platform.green.set.lab",
+    "nodePrefix": "mgmt-node-01",
+    "internalClusterCidr": "198.18.0.0/15",
+    "useExistingDeployment": false,
+    "size": "small",
+    "adminUserPassword": "VMware123!VMware123!"
+  },
+  "nsxtSpec": {
+    "nsxtManagerSize": "medium",
+    "vipFqdn": "nsx01.green.set.lab",
+    "rootNsxtManagerPassword": "VMware123!VMware123!",
+    "nsxtAdminPassword": "VMware123!VMware123!",
+    "nsxtAuditPassword": "VMware123!VMware123!",
+    "transportVlanId": 453,
+    "ipAddressPoolSpec": {
+      "name": "mgmt-cl01-tep01",
+      "description": "mgmt-cl01-tep01 descr",
+      "subnets": [
+        {
+          "cidr": "10.45.3.0/24",
+          "gateway": "10.45.3.1",
+          "ipAddressPoolRanges": [
+            { "start": "10.45.3.101", "end": "10.45.3.112" }
+          ]
+        }
+      ]
+    },
+    "vpcSpec": {
+      "dtgwSpec": {
+        "vlan": 454,
+        "gatewayCidr": "10.45.4.1/24",
+        "externalIpBlockCidr": "10.45.4.0/24"
+      }
+    },
+    "useExistingDeployment": false,
+    "nsxtManagers": [{ "hostname": "nsx02.green.set.lab" }]
+  },
+  "vcfOperationsSpec": {
+    "applianceSize": "small",
+    "useExistingDeployment": false,
+    "nodes": [
+      {
+        "hostname": "ops01.green.set.lab",
+        "rootUserPassword": "VMware123!VMware123!",
+        "type": "master"
+      }
+    ],
+    "adminUserPassword": "VMware123!VMware123!"
+  },
+  "vcfOperationsCollectorSpec": {
+    "applianceSize": "small",
+    "hostname": "collector.green.set.lab",
+    "useExistingDeployment": false,
+    "rootUserPassword": "VMware123!VMware123!"
+  },
+  "licenseServerSpec": { "hostname": "license.green.set.lab" },
+  "vidbSpec": { "hostname": "vidb.green.set.lab", "size": "small" },
+  "saltSpec": { "size": "small" },
+  "saltRaasSpec": { "size": "small" },
+  "telemetryAcceptorSpec": { "size": "small" },
+  "fleetLcmSpec": { "hostname": "fleetlcm.green.set.lab", "size": "small" },
+  "sddcLcmSpec": { "hostname": "shared01.green.set.lab", "size": "small" },
+  "fleetDepotSpec": { "size": "small" },
   "vcenterSpec": {
     "vcenterHostname": "vc01.green.set.lab",
-    "rootVcenterPassword": "VMware123!VMware123!",
     "vmSize": "small",
     "storageSize": "lstorage",
     "ssoDomain": "vsphere.local",
-    "adminUserSsoPassword": "VMware123!VMware123!",
-    "useExistingDeployment": false
+    "useExistingDeployment": false,
+    "rootVcenterPassword": "VMware123!VMware123!",
+    "adminUserSsoPassword": "VMware123!VMware123!"
   },
   "clusterSpec": { "datacenterName": "mgmt-dc01", "clusterName": "mgmt-cl01" },
+  "datastoreSpec": {
+    "vsanSpec": {
+      "esaConfig": { "enabled": true },
+      "encryptionConfig": {
+        "dataInTransitConfig": { "enable": false, "rekeyInterval": 1440 }
+      }
+    }
+  },
   "dvsSpecs": [
     {
       "dvsName": "mgmt-cl01-vds01",
@@ -60,170 +213,16 @@
       ],
       "nsxTeamings": [
         { "policy": "FAILOVER_ORDER", "activeUplinks": ["uplink1", "uplink2"] }
-      ]
+      ],
+      "lagSpecs": null
     }
   ],
-  "nsxtSpec": {
-    "nsxtManagers": [{ "hostname": "nsx02.green.set.lab" }],
-    "nsxtManagerSize": "medium",
-    "vipFqdn": "nsx01.green.set.lab",
-    "rootNsxtManagerPassword": "VMware123!VMware123!",
-    "nsxtAdminPassword": "VMware123!VMware123!",
-    "nsxtAuditPassword": "VMware123!VMware123!",
-    "transportVlanId": 453,
-    "ipAddressPoolSpec": {
-      "name": "mgmt-cl01-tep01",
-      "description": "mgmt-cl01-tep01 descr",
-      "subnets": [
-        {
-          "ipAddressPoolRanges": [
-            { "start": "10.45.3.101", "end": "10.45.3.112" }
-          ],
-          "cidr": "10.45.3.0/24",
-          "gateway": "10.45.3.1"
-        }
-      ]
-    },
-    "vpcSpec": {
-      "dtgwSpec": {
-        "vlan": 454,
-        "gatewayCidr": "10.45.4.1/24",
-        "externalIpBlockCidr": "10.45.4.0/24"
-      }
-    },
-    "useExistingDeployment": false
-  },
-  "networkSpecs": [
-    {
-      "networkType": "MANAGEMENT",
-      "subnet": "10.45.0.0/24",
-      "gateway": "10.45.0.1",
-      "vlanId": 450,
-      "mtu": 8000,
-      "teamingPolicy": "loadbalance_loadbased",
-      "activeUplinks": ["uplink1", "uplink2"],
-      "portGroupKey": "mgmt-cl01-vds01-pg-esx-mgmt",
-      "ipAddressVersion": "IPv4",
-      "ipAddressAssignmentMode": "STATIC"
-    },
-    {
-      "networkType": "VM_MANAGEMENT",
-      "subnet": "10.45.0.0/24",
-      "gateway": "10.45.0.1",
-      "vlanId": 450,
-      "mtu": 8000,
-      "teamingPolicy": "loadbalance_loadbased",
-      "activeUplinks": ["uplink1", "uplink2"],
-      "portGroupKey": "mgmt-cl01-vds01-pg-vm-mgmt",
-      "ipAddressVersion": "IPv4",
-      "ipAddressAssignmentMode": "STATIC"
-    },
-    {
-      "networkType": "VMOTION",
-      "subnet": "10.45.1.0/24",
-      "gateway": "10.45.1.1",
-      "includeIpAddressRanges": [
-        { "startIpAddress": "10.45.1.201", "endIpAddress": "10.45.1.206" }
-      ],
-      "vlanId": 451,
-      "mtu": 8000,
-      "teamingPolicy": "loadbalance_loadbased",
-      "activeUplinks": ["uplink1", "uplink2"],
-      "portGroupKey": "mgmt-cl01-vds01-pg-vmotion",
-      "ipAddressVersion": "IPv4",
-      "ipAddressAssignmentMode": "STATIC"
-    },
-    {
-      "networkType": "VSAN",
-      "subnet": "10.45.2.0/24",
-      "gateway": "10.45.2.1",
-      "includeIpAddressRanges": [
-        { "startIpAddress": "10.45.2.201", "endIpAddress": "10.45.2.206" }
-      ],
-      "vlanId": 452,
-      "mtu": 8000,
-      "teamingPolicy": "loadbalance_loadbased",
-      "activeUplinks": ["uplink1", "uplink2"],
-      "portGroupKey": "mgmt-cl01-vds01-pg-vsan",
-      "ipAddressVersion": "IPv4",
-      "ipAddressAssignmentMode": "STATIC"
-    }
-  ],
-  "dnsSpec": { "subdomain": "green.set.lab", "nameservers": ["172.21.0.90"] },
-  "ntpServers": ["10.6.1.1"],
   "sddcManagerSpec": {
-    "rootPassword": "VMware123!VMware123!",
     "hostname": "sddcm.green.set.lab",
+    "useExistingDeployment": false,
+    "rootPassword": "VMware123!VMware123!",
     "sshPassword": "VMware123!VMware123!",
-    "localUserPassword": "VMware123!VMware123!",
-    "useExistingDeployment": false
+    "localUserPassword": "VMware123!VMware123!"
   },
-  "managementPoolName": "mgmt-np01",
-  "ceipEnabled": true,
-  "datastoreSpec": {
-    "vsanSpec": {
-      "datastoreName": "mgmt-cl01-ds-vsan01",
-      "vsanDedup": false,
-      "esaConfig": { "enabled": true },
-      "encryptionConfig": { "dataInTransitConfig": { "enable": false } },
-      "failuresToTolerate": 1
-    }
-  },
-  "vspClusterSpec": {
-    "platformFqdn": "vsp01.green.set.lab",
-    "systemUserPassword": "VMware123!VMware123!",
-    "ipv4Pool": {
-      "ipRange": {
-        "startIpAddress": "10.45.0.31",
-        "endIpAddress": "10.45.0.60"
-      }
-    },
-    "size": "small",
-    "internalClusterCidrIpv4": "198.18.0.0/15",
-    "instanceFqdn": "shared01.green.set.lab",
-    "fleetFqdn": "fleetlcm.green.set.lab"
-  },
-  "fleetLcmSpec": { "size": "small" },
-  "sddcLcmSpec": { "size": "small" },
-  "fleetDepotSpec": { "size": "small" },
-  "telemetryAcceptorSpec": { "size": "small" },
-  "vidbSpec": { "hostname": "vidb.green.set.lab", "size": "small" },
-  "saltSpec": { "size": "small" },
-  "saltRaasSpec": { "size": "small" },
-  "vcfOperationsSpec": {
-    "nodes": [
-      {
-        "hostname": "ops01.green.set.lab",
-        "rootUserPassword": "VMware123!VMware123!",
-        "type": "master"
-      }
-    ],
-    "adminUserPassword": "VMware123!VMware123!",
-    "applianceSize": "small",
-    "useExistingDeployment": false
-  },
-  "vcfOperationsCollectorSpec": {
-    "hostname": "collector.green.set.lab",
-    "rootUserPassword": "VMware123!VMware123!",
-    "applianceSize": "small",
-    "useExistingDeployment": false
-  },
-  "vcfAutomationSpec": {
-    "hostname": "auto.green.set.lab",
-    "platformFqdn": "auto-platform.green.set.lab",
-    "adminUserPassword": "VMware123!VMware123!",
-    "ipPool": [
-      "10.45.0.81",
-      "10.45.0.82",
-      "10.45.0.83",
-      "10.45.0.84",
-      "10.45.0.85"
-    ],
-    "internalClusterCidr": "198.18.0.0/15",
-    "nodePrefix": "mgmt-node-01",
-    "size": "small",
-    "useExistingDeployment": false
-  },
-  "licenseServerSpec": { "hostname": "license.green.set.lab" },
-  "vcfInstanceName": "Emerald Echo"
+  "managementPoolName": "mgmt-np01"
 }
