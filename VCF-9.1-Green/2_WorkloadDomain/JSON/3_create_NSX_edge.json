@@ -1,69 +1,77 @@
 {
-    "asn": 64608,
-    "edgeAdminPassword": "VMware123!VMware123!",
-    "edgeAuditPassword": "VMware123!VMware123!",
-    "edgeClusterName": "nsx-w01-edge",
-    "edgeClusterProfileType": "DEFAULT",
-    "edgeClusterType": "NSX-T",
-    "edgeFormFactor": "LARGE",
-    "edgeNodeSpecs": [ {
-        "clusterId": "XXXXX",
-        "edgeNodeName": "nsx-w01-e1.ire.set.lab",
-        "edgeTep1IP": "10.40.4.235/24",
-        "edgeTep2IP": "10.40.4.237/24",
-        "edgeTepGateway": "10.40.4.1",
-        "edgeTepVlan": 404,
-        "interRackCluster": false,
-        "managementGateway": "10.40.0.1",
-        "managementIP": "10.40.0.235/24",
-        "uplinkNetwork": [ {
-            "asnPeer": 64555,
-            "bgpPeerPassword": "",
-            "peerIP": "10.40.5.2/24",
-            "uplinkInterfaceIP": "10.40.5.7/24",
-            "uplinkVlan": 405
-        }, {
-            "asnPeer": 64555,
-            "bgpPeerPassword": "",
-            "peerIP": "10.40.6.3/24",
-            "uplinkInterfaceIP": "10.40.6.7/24",
-            "uplinkVlan": 406
+  "asn": 64608,
+  "edgeAdminPassword": "VMware123!VMware123!",
+  "edgeAuditPassword": "VMware123!VMware123!",
+  "edgeClusterName": "nsx-w01-edge",
+  "edgeClusterProfileType": "DEFAULT",
+  "edgeClusterType": "NSX-T",
+  "edgeFormFactor": "LARGE",
+  "edgeNodeSpecs": [
+    {
+      "clusterId": "REPLACE_WITH_VSPHERE_CLUSTER_ID",
+      "edgeNodeName": "nsx-w01-e1.green.set.lab",
+      "edgeTep1IP": "10.45.4.235/24",
+      "edgeTep2IP": "10.45.4.237/24",
+      "edgeTepGateway": "10.45.4.1",
+      "edgeTepVlan": 454,
+      "interRackCluster": false,
+      "managementGateway": "10.45.0.1",
+      "managementIP": "10.45.0.235/24",
+      "uplinkNetwork": [
+        {
+          "asnPeer": 64555,
+          "bgpPeerPassword": "",
+          "peerIP": "10.45.5.2/24",
+          "uplinkInterfaceIP": "10.45.5.7/24",
+          "uplinkVlan": 455
+        },
+        {
+          "asnPeer": 64555,
+          "bgpPeerPassword": "",
+          "peerIP": "10.45.6.3/24",
+          "uplinkInterfaceIP": "10.45.6.7/24",
+          "uplinkVlan": 456
         }
-        ],
-        "vmManagementPortgroupName": "cl01-vds-01-pg-vmmgmt",
-        "vmManagementPortgroupVlan": 400
-    },{
-        "clusterId": "XXXXX",
-        "edgeNodeName": "nsx-w01-e2.ire.set.lab",
-        "edgeTep1IP": "10.40.4.236/24",
-        "edgeTep2IP": "10.40.4.238/24",
-        "edgeTepGateway": "10.40.4.1",
-        "edgeTepVlan": 404,
-        "interRackCluster": false,
-        "managementGateway": "10.40.0.1",
-        "managementIP": "10.40.0.236/24",
-        "uplinkNetwork": [ {
-            "asnPeer": 64555,
-            "bgpPeerPassword": "",
-            "peerIP": "10.40.5.3/24",
-            "uplinkInterfaceIP": "10.40.5.8/24",
-            "uplinkVlan": 405
-        }, {
-            "asnPeer": 64555,
-            "bgpPeerPassword": "",
-            "peerIP": "10.40.6.2/24",
-            "uplinkInterfaceIP": "10.40.6.8/24",
-            "uplinkVlan": 406
-        } ],
-        "vmManagementPortgroupName": "cl01-vds-01-pg-vmmgmt",
-        "vmManagementPortgroupVlan": 400
-    } ],
-    "edgeRootPassword": "VMware123!VMware123!",
-    "mtu": 8000,
-    "skipTepRoutabilityCheck": false,
-    "tier0Name": "w01-t0",
-    "tier0RoutingType": "EBGP",
-    "tier0ServicesHighAvailability": "ACTIVE_STANDBY",
-    "tier1Name": "w01-t1",
-    "tier1Unhosted": false
+      ],
+      "vmManagementPortgroupName": "cl01-vds-01-pg-vmmgmt",
+      "vmManagementPortgroupVlan": 450
+    },
+    {
+      "clusterId": "REPLACE_WITH_VSPHERE_CLUSTER_ID",
+      "edgeNodeName": "nsx-w01-e2.green.set.lab",
+      "edgeTep1IP": "10.45.4.236/24",
+      "edgeTep2IP": "10.45.4.238/24",
+      "edgeTepGateway": "10.45.4.1",
+      "edgeTepVlan": 454,
+      "interRackCluster": false,
+      "managementGateway": "10.45.0.1",
+      "managementIP": "10.45.0.236/24",
+      "uplinkNetwork": [
+        {
+          "asnPeer": 64555,
+          "bgpPeerPassword": "",
+          "peerIP": "10.45.5.3/24",
+          "uplinkInterfaceIP": "10.45.5.8/24",
+          "uplinkVlan": 455
+        },
+        {
+          "asnPeer": 64555,
+          "bgpPeerPassword": "",
+          "peerIP": "10.45.6.2/24",
+          "uplinkInterfaceIP": "10.45.6.8/24",
+          "uplinkVlan": 456
+        }
+      ],
+      "vmManagementPortgroupName": "cl01-vds-01-pg-vmmgmt",
+      "vmManagementPortgroupVlan": 450
+    }
+  ],
+  "edgeRootPassword": "VMware123!VMware123!",
+  "mtu": 8000,
+  "skipTepRoutabilityCheck": false,
+  "tier0Name": "w01-t0",
+  "tier0RoutingType": "EBGP",
+  "tier0ServicesHighAvailability": "ACTIVE_STANDBY",
+  "tier1Name": "w01-t1",
+  "tier1Unhosted": false
 }

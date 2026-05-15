@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
     Consolidated vESX Management Tool for Build and Move operations.
-    Updated: May 14, 2026
+    Updated: May 15, 2026
 
 .EXAMPLE
     .\Manage-vESX.ps1 -Build
@@ -24,7 +24,7 @@ Param(
 # --- 1. Common Configuration ---
 $EnvironmentName  = "green"
 $FolderName       = "vcf910-green"
-$iterationList    = (1..6)
+$iterationList    = (7..10) ## mostly change the host numbers and the RAM/CPU/Reservation numbers for WLD vs. Mgmt
 $ManagementVC     = 'chi-w01-vc01.set.lab'
 $ManagementUser   = 'administrator@wld.local'
 $vc_passwordFile  = "$PSScriptRoot\password_vc_admin.txt"
@@ -35,12 +35,12 @@ $ClusterName      = "chi-w01"
 $Datastore        = "chi-w01-vsan01"
 $NetworkName      = "vcf9-vlan450"
 $GuestOS          = "vmkernel9Guest"
-$RAM_GB           = 128
+$RAM_GB           = 96
 $RAM_GB_AUTO      = 192 
-$CPU              = 48
+$CPU              = 32
 $CoresPerCPU      = 8
 $DataDiskSizeGB   = 600
-$ReservationMHz   = 20000
+$ReservationMHz   = 0
 $webInstallHost   = '10.45.0.250'
 $fireThemUp       = $true
 

@@ -1,28 +1,28 @@
 {
     "hosts": [
         {
-            "fqdn": "esx07.ire.set.lab",
+            "fqdn": "esx07.green.set.lab",
             "username": "root",
             "password": "VMware@123!",
             "storageType": "VSAN_ESA",
             "networkPoolName": "wld-np01"
         },
 		{
-            "fqdn": "esx08.ire.set.lab",
+            "fqdn": "esx08.green.set.lab",
             "username": "root",
             "password": "VMware@123!",
             "storageType": "VSAN_ESA",
             "networkPoolName": "wld-np01"
         },
 		{
-            "fqdn": "esx09.ire.set.lab",
+            "fqdn": "esx09.green.set.lab",
             "username": "root",
             "password": "VMware@123!",
             "storageType": "VSAN_ESA",
             "networkPoolName": "wld-np01"
         },
 		{
-            "fqdn": "esx10.ire.set.lab",
+            "fqdn": "esx10.green.set.lab",
             "username": "root",
             "password": "VMware@123!",
             "storageType": "VSAN_ESA",
