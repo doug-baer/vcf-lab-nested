@@ -41,7 +41,6 @@
     "storageSize": "lstorage",
     "ssoDomain": "vsphere.local",
     "adminUserSsoPassword": "VMware123!VMware123!",
-    "version": "9.1.0.0.25234335",
     "useExistingDeployment": false
   },
   "clusterSpec": { "datacenterName": "mgmt-dc01", "clusterName": "mgmt-cl01" },
@@ -92,7 +91,6 @@
         "externalIpBlockCidr": "10.45.4.0/24"
       }
     },
-    "version": "9.1.0.0.25233358",
     "useExistingDeployment": false
   },
   "networkSpecs": [
@@ -158,7 +156,6 @@
     "hostname": "sddcm.green.set.lab",
     "sshPassword": "VMware123!VMware123!",
     "localUserPassword": "VMware123!VMware123!",
-    "version": "9.1.0.0.25234348",
     "useExistingDeployment": false
   },
   "managementPoolName": "mgmt-np01",
