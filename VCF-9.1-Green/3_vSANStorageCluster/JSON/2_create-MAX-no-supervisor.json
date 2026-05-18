@@ -1,10 +1,37 @@
 {
-  "_comment": "This JSON can be used to create the workload domain for an HCI configuration or when you want to add the compute cluster before the storage cluster (you do)",
-  "domainName": "w01",
+  "_comment": "This JSON can be used to create the workload domain storage cluster first -- DOES NOT deploy Supervisor",
+  "domainName": "max",
+  "nsxTSpec": {
+    "licenseKey": null,
+    "nsxManagerAdminPassword": "VMware123!VMware123!",
+    "nsxManagerAuditPassword": "VMware123!VMware123!",
+    "vipFqdn": "w01-nsx.green.set.lab",
+    "nsxManagerSpecs": [
+      {
+        "name": "w01-nsx-1",
+        "networkDetailsSpec": {
+          "dnsName": "w01-nsx-1.green.set.lab",
+          "gateway": "10.45.0.1",
+          "subnetMask": "255.255.255.0"
+        }
+      }
+    ],
+    "formFactor": "medium"
+  },
+  "vcenterSpec": {
+    "name": "w01-vc",
+    "datacenterName": "w01-DC",
+    "rootPassword": "VMware123!VMware123!",
+    "networkDetailsSpec": {
+      "dnsName": "w01-vc.green.set.lab",
+      "gateway": "10.45.0.1",
+      "subnetMask": "255.255.255.0"
+    }
+  },
   "computeSpec": {
     "clusterSpecs": [
       {
-        "name": "cl01",
+        "name": "max",
         "advancedOptions": {
           "highAvailability": {
             "enabled": true
@@ -13,11 +40,18 @@
         "datastoreSpec": {
           "vsanDatastoreSpec": {
             "licenseKey": null,
-            "datastoreName": "cl01-vsan01",
+            "datastoreName": "max-vsan01",
+            "encryptionConfig": {
+              "dataInTransitConfig": {
+                "enable": false,
+                "rekeyInterval": 1440
+              }
+            },
             "esaConfig": {
               "enabled": true,
               "vsanMaxConfig": {
-                "enableVsanMax": false
+                "enableVsanMax": true,
+                "enableVsanExternalNetwork": false
               }
             }
           }
@@ -25,68 +59,72 @@
         "networkSpec": {
           "nsxClusterSpec": {
             "nsxTClusterSpec": {
+              "uplinkProfiles": [
+                {
+                  "name": "max-vds-uplink-profile-1",
+                  "transportVlan": "453",
+                  "teamings": [
+                    {
+                      "name": "DEFAULT",
+                      "policy": "LOADBALANCE_SRCID",
+                      "activeUplinks": ["uplink-1", "uplink-2"],
+                      "standByUplinks": []
+                    }
+                  ]
+                }
+              ],
               "ipAddressPoolsSpec": [
                 {
+                  "name": "w01-tep-pool",
                   "description": "host TEPs-w01",
                   "ignoreUnavailableNsxtCluster": false,
-                  "name": "w01-tep-pool",
                   "subnets": [
                     {
-                      "cidr": "10.45.3.0/24",
-                      "gateway": "10.45.3.1",
                       "ipAddressPoolRanges": [
                         {
                           "start": "10.45.3.40",
                           "end": "10.45.3.60"
                         }
-                      ]
+                      ],
+                      "cidr": "10.45.3.0/24",
+                      "gateway": "10.45.3.1"
                     }
                   ]
-                }
-              ],
-              "uplinkProfiles": [
-                {
-                  "name": "cl01-vds-uplink-profile-1",
-                  "teamings": [
-                    {
-                      "policy": "LOADBALANCE_SRCID",
-                      "activeUplinks": ["uplink-1", "uplink-2"],
-                      "standByUplinks": null
-                    }
-                  ],
-                  "transportVlan": "453"
                 }
               ]
             }
           },
           "vdsSpecs": [
             {
-              "name": "cl01-vds-01",
+              "name": "max-vds-01",
               "mtu": 8000,
               "portGroupSpecs": [
                 {
-                  "name": "cl01-vds-01-pg-mgmt",
+                  "name": "max-vds-01-pg-mgmt",
                   "transportType": "MANAGEMENT",
                   "activeUplinks": ["uplink1", "uplink2"],
+                  "standByUplinks": null,
                   "teamingPolicy": "loadbalance_loadbased"
                 },
                 {
-                  "name": "cl01-vds-01-pg-vmotion",
+                  "name": "max-vds-01-pg-vmotion",
                   "transportType": "VMOTION",
                   "activeUplinks": ["uplink1", "uplink2"],
+                  "standByUplinks": null,
                   "teamingPolicy": "loadbalance_loadbased"
                 },
                 {
-                  "name": "cl01-vds-01-pg-vsan",
+                  "name": "max-vds-01-pg-vsan",
                   "transportType": "VSAN",
                   "activeUplinks": ["uplink1", "uplink2"],
+                  "standByUplinks": null,
                   "teamingPolicy": "loadbalance_loadbased"
                 }
               ],
               "nsxtSwitchConfig": {
                 "transportZones": [
                   {
-                    "name": "overlay-tz-nsx-w01",
+                    "name": "overlay-tz-w01-nsx",
                     "transportType": "OVERLAY"
                   }
                 ]
@@ -99,9 +137,8 @@
               "isDefault": true,
               "nsxtHostSwitchConfigs": [
                 {
-                  "vdsName": "cl01-vds-01",
-                  "ipAddressPoolName": "w01-tep-pool",
-                  "uplinkProfileName": "cl01-vds-uplink-profile-1",
+                  "vdsName": "max-vds-01",
+                  "uplinkProfileName": "max-vds-uplink-profile-1",
                   "vdsUplinkToNsxUplink": [
                     {
                       "vdsUplinkName": "uplink1",
@@ -111,7 +148,8 @@
                       "vdsUplinkName": "uplink2",
                       "nsxUplinkName": "uplink-2"
                     }
-                  ]
+                  ],
+                  "ipAddressPoolName": "w01-tep-pool"
                 }
               ]
             }
@@ -119,140 +157,81 @@
         },
         "hostSpecs": [
           {
-            "id": "REPLACE_WITH_HOST_1_ID",
+            "id": "491fcd5f-beda-4e12-9d6f-02b17c5bc812",
             "hostNetworkSpec": {
               "vmNics": [
                 {
                   "id": "vmnic0",
                   "uplink": "uplink1",
-                  "vdsName": "cl01-vds-01"
+                  "vdsName": "max-vds-01"
                 },
                 {
                   "id": "vmnic1",
                   "uplink": "uplink2",
-                  "vdsName": "cl01-vds-01"
+                  "vdsName": "max-vds-01"
                 }
               ]
             },
             "licenseKey": null
           },
           {
-            "id": "REPLACE_WITH_HOST_2_ID",
+            "id": "8ba2516f-ba84-4c87-9616-bd7b29b955ae",
             "hostNetworkSpec": {
               "vmNics": [
                 {
                   "id": "vmnic0",
                   "uplink": "uplink1",
-                  "vdsName": "cl01-vds-01"
+                  "vdsName": "max-vds-01"
                 },
                 {
                   "id": "vmnic1",
                   "uplink": "uplink2",
-                  "vdsName": "cl01-vds-01"
+                  "vdsName": "max-vds-01"
                 }
               ]
             },
             "licenseKey": null
           },
           {
-            "id": "REPLACE_WITH_HOST3_ID",
+            "id": "44aa8dd1-4413-4c1d-afc8-52c5bc012821",
             "hostNetworkSpec": {
               "vmNics": [
                 {
                   "id": "vmnic0",
                   "uplink": "uplink1",
-                  "vdsName": "cl01-vds-01"
+                  "vdsName": "max-vds-01"
                 },
                 {
                   "id": "vmnic1",
                   "uplink": "uplink2",
-                  "vdsName": "cl01-vds-01"
+                  "vdsName": "max-vds-01"
                 }
               ]
             },
             "licenseKey": null
           },
           {
-            "id": "REPLACE_WITH_HOST_4_ID",
+            "id": "9420a1dd-1466-4bae-8fdd-b2777707c3b1",
             "hostNetworkSpec": {
               "vmNics": [
                 {
                   "id": "vmnic0",
                   "uplink": "uplink1",
-                  "vdsName": "cl01-vds-01"
+                  "vdsName": "max-vds-01"
                 },
                 {
                   "id": "vmnic1",
                   "uplink": "uplink2",
-                  "vdsName": "cl01-vds-01"
+                  "vdsName": "max-vds-01"
                 }
               ]
             },
             "licenseKey": null
           }
         ],
-        "clusterImageId": "REPLACE_WITH_PERSONALITY_ID-cluster-image-profile",
-        "supervisorActivationSpec": {
-          "supervisorName": "green-supervisor",
-          "serviceCidr": {
-            "address": "10.192.0.0",
-            "prefix": 16
-          },
-          "zoneName": "green-zone-1",
-          "managementNetwork": {
-            "details": {
-              "vlanId": 450,
-              "gateway": "10.45.0.1",
-              "netMask": "255.255.255.0",
-              "vdsName": "cl01-vds-01"
-            },
-            "controlPlaneIpRange": {
-              "startIpAddress": "10.45.0.191",
-              "endIpAddress": "10.45.0.195"
-            }
-          },
-          "vpcNetwork": {
-            "privateTransitNetworkCidr": {
-              "address": "10.193.0.0",
-              "prefix": 16
-            },
-            "privateCidr": {
-              "address": "10.194.0.0",
-              "prefix": 16
-            },
-            "dnsServers": ["172.21.0.90"],
-            "ntpServers": ["10.6.1.1"]
-          }
-        }
+        "clusterImageId": "e4ed5d2b-bf83-4596-8c6a-0afa9d428cae"
       }
     ]
-  },
-  "nsxTSpec": {
-    "licenseKey": null,
-    "nsxManagerAdminPassword": "VMware123!VMware123!",
-    "nsxManagerAuditPassword": "VMware123!VMware123!",
-    "vipFqdn": "nsx-w01.green.set.lab",
-    "nsxManagerSpecs": [
-      {
-        "name": "nsx-w01-1",
-        "networkDetailsSpec": {
-          "dnsName": "nsx-w01-1.green.set.lab",
-          "gateway": "10.45.0.1",
-          "subnetMask": "255.255.255.0"
-        }
-      }
-    ],
-    "formFactor": "medium"
-  },
-  "vcenterSpec": {
-    "name": "w01-vc",
-    "rootPassword": "VMware123!VMware123!",
-    "datacenterName": "w01-DC",
-    "networkDetailsSpec": {
-      "dnsName": "w01-vc.green.set.lab",
-      "gateway": "10.45.0.1",
-      "subnetMask": "255.255.255.0"
-    }
   },
   "ssoDomainSpec": {
     "ssoDomainName": "clean.local",

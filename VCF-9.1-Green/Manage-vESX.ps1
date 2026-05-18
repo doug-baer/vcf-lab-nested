@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
     Consolidated vESX Management Tool for Build and Move operations.
-    Updated: May 15, 2026
+    Updated: May 18, 2026
 
     Requires a YAML-based configuration file
 
@@ -96,6 +96,8 @@ foreach ($Param in $TargetParameters) {
 }
 
 Write-Host "--------------------------------------------------------" -ForegroundColor Gray
+
+#TODO: bail out if the variables don't get set properly -- there seems to be an oddity with Set-Variable 
 
 
 # --- 4. Common or Override Configuration ---
