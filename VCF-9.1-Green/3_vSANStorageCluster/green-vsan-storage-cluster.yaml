@@ -1,0 +1,25 @@
+# Network and Host Configuration for Green vSAN Storage Cluster
+ENVIRONMENT_NAME: "green"
+FOLDER_NAME: "vcf910-green"
+DNS_DOMAIN_NAME: "green.set.lab"
+SSO_DOMAIN_NAME: "clean.local" #only important if management domain
+START_HOST_NUMBER: 15
+END_HOST_NUMBER: 18
+HOST_RAM_GB: 32
+HOST_CPUS: 16
+HOST_CORES_PER_CPU: 4
+HOST_CPU_RESERVATION_MHZ: 0
+AUTO_HOST_NUM: 6
+AUTO_HOST_RAM: 192
+DISK_SIZE_GB: 600 # large disks since this is the vSAN (Max) Storage Cluster
+MGMT_VLAN_NUMBER: 450
+ACCESS_PG_NAME: "vcf9-vlan450"
+TRUNK_PG_NAME: "vcf9-vlans450-459"
+HTTP_INSTALL_HOST_IP: "10.45.0.250"
+HOSTING_CLUSTER_NAME: "chi-w01"
+HOSTING_DATASTORE_NAME: "chi-w01-vsan01"
+HOSTING_VCENTER_FQDN: "chi-w01-vc01.set.lab"
+HOSTING_VCENTER_USER: "administrator@wld.local"
+HOSTING_VCENTER_PASSWORD: "VMware123!VMware123!"
+ESX_VM_ROOT_PASSWORD: "VMware@123!"
+POWER_ON_ESX_VMS: true

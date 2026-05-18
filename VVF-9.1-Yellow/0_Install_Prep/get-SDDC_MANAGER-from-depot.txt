@@ -1,1 +1,0 @@
-http://depot.ire.set.lab/VCF910/PROD/COMP/SDDC_MANAGER_VCF/VCF-SDDC-Manager-Appliance-9.1.0.0.25371088.ova
