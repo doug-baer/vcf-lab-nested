@@ -1,5 +1,5 @@
 {
-  "_comment": "This JSON can be used to create the workload domain storage cluster first -- DOES NOT deploy Supervisor",
+  "_comment": "This JSON can be used to create the workload domain storage cluster first -- DOES NOT deploy Supervisor -- not tested",
   "domainName": "max",
   "nsxTSpec": {
     "licenseKey": null,

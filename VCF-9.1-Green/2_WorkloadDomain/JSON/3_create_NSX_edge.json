@@ -1,15 +1,16 @@
 {
+  "_comment": "The API that takes this JSON has been deprecated in 9.1 and I am not sure what replaces it yet.",
   "asn": 64616,
   "edgeAdminPassword": "VMware123!VMware123!",
   "edgeAuditPassword": "VMware123!VMware123!",
-  "edgeClusterName": "nsx-w01-edge",
+  "edgeClusterName": "w01-nsx-edge",
   "edgeClusterProfileType": "DEFAULT",
   "edgeClusterType": "NSX-T",
   "edgeFormFactor": "LARGE",
   "edgeNodeSpecs": [
     {
       "clusterId": "REPLACE_WITH_VSPHERE_CLUSTER_ID",
-      "edgeNodeName": "nsx-w01-e1.green.set.lab",
+      "edgeNodeName": "w01-nsx-e1.green.set.lab",
       "edgeTep1IP": "10.45.4.235/24",
       "edgeTep2IP": "10.45.4.237/24",
       "edgeTepGateway": "10.45.4.1",
@@ -38,7 +39,7 @@
     },
     {
       "clusterId": "REPLACE_WITH_VSPHERE_CLUSTER_ID",
-      "edgeNodeName": "nsx-w01-e2.green.set.lab",
+      "edgeNodeName": "w01-nsx-e2.green.set.lab",
       "edgeTep1IP": "10.45.4.236/24",
       "edgeTep2IP": "10.45.4.238/24",
       "edgeTepGateway": "10.45.4.1",
