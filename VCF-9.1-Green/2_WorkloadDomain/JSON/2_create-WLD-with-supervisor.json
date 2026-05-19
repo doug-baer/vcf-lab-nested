@@ -1,5 +1,6 @@
 {
-  "_comment": "This JSON can be used to create the workload domain for an HCI configuration or when you want to add the compute cluster before the storage cluster (you do)",
+  "_comment1": "This JSON can be used to create the workload domain for an HCI configuration or when you want to add the compute cluster before the storage cluster (you do). It also lets you specify the passwords rather than having them auto-generated.",
+  "_comment2": "You must replace the host IDs with those of YOUR commissioned hosts and the clusterImageId with the ID of the _personality_ (Host Image) that you want to assign to the cluster. Gett these via the SDDC Manager API.",
   "domainName": "w01",
   "computeSpec": {
     "clusterSpecs": [
@@ -119,7 +120,7 @@
         },
         "hostSpecs": [
           {
-            "id": "REPLACE_WITH_HOST_1_ID",
+            "id": "6d985a23-3b06-4a8f-809e-c0e199576033",
             "hostNetworkSpec": {
               "vmNics": [
                 {
@@ -137,7 +138,7 @@
             "licenseKey": null
           },
           {
-            "id": "REPLACE_WITH_HOST_2_ID",
+            "id": "c16f205b-2c09-402e-afa9-907ae980ecac",
             "hostNetworkSpec": {
               "vmNics": [
                 {
@@ -155,7 +156,7 @@
             "licenseKey": null
           },
           {
-            "id": "REPLACE_WITH_HOST3_ID",
+            "id": "2d555425-adff-4714-a26a-b881723c0944",
             "hostNetworkSpec": {
               "vmNics": [
                 {
@@ -173,7 +174,7 @@
             "licenseKey": null
           },
           {
-            "id": "REPLACE_WITH_HOST_4_ID",
+            "id": "0b6e3497-2a6e-485b-a21c-ab48ffd98f25",
             "hostNetworkSpec": {
               "vmNics": [
                 {
@@ -191,7 +192,7 @@
             "licenseKey": null
           }
         ],
-        "clusterImageId": "REPLACE_WITH_PERSONALITY_ID-cluster-image-profile",
+        "clusterImageId": "e4ed5d2b-bf83-4596-8c6a-0afa9d428cae",
         "supervisorActivationSpec": {
           "supervisorName": "green-supervisor",
           "serviceCidr": {
@@ -231,12 +232,12 @@
     "licenseKey": null,
     "nsxManagerAdminPassword": "VMware123!VMware123!",
     "nsxManagerAuditPassword": "VMware123!VMware123!",
-    "vipFqdn": "nsx-w01.green.set.lab",
+    "vipFqdn": "w01-nsx.green.set.lab",
     "nsxManagerSpecs": [
       {
-        "name": "nsx-w01-1",
+        "name": "w01-nsx-1",
         "networkDetailsSpec": {
-          "dnsName": "nsx-w01-1.green.set.lab",
+          "dnsName": "w01-nsx-1.green.set.lab",
           "gateway": "10.45.0.1",
           "subnetMask": "255.255.255.0"
         }

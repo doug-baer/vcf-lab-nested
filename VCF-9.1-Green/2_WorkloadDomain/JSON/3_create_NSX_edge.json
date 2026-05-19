@@ -1,5 +1,5 @@
 {
-  "asn": 64608,
+  "asn": 64616,
   "edgeAdminPassword": "VMware123!VMware123!",
   "edgeAuditPassword": "VMware123!VMware123!",
   "edgeClusterName": "nsx-w01-edge",
