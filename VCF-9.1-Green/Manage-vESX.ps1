@@ -239,6 +239,7 @@ if ($Move) {
     foreach ( $iteration in $iterationList ) {
         $it = "{0:D2}" -f $iteration # make sure the ids are 2-digits
         $VMName = $ENVIRONMENT_NAME + "-esx" + $it #ensure the VM name references its environment
+        # TODO: handle use case for w02 (protected site) ESXes being on a different mgmt VLAN from everything else
         $ESXiFQDN = "esx" + $it + '.' + $DNS_DOMAIN_NAME
 
         ### check for the vms prior to going crazy

@@ -78,8 +78,8 @@
             "includeIpAddress": null,
             "includeIpAddressRanges": [
                 {
-                    "startIpAddress": "10.45.1.201",
-                    "endIpAddress": "10.45.1.218"
+                    "startIpAddress": "10.45.1.221",
+                    "endIpAddress": "10.45.1.225"
                 }
             ],
             "vlanId": "451",
@@ -100,8 +100,8 @@
             "includeIpAddress": null,
             "includeIpAddressRanges": [
                 {
-                    "startIpAddress": "10.45.2.201",
-                    "endIpAddress": "10.45.2.218"
+                    "startIpAddress": "10.45.2.221",
+                    "endIpAddress": "10.45.2.225"
                 }
             ],
             "vlanId": "452",
