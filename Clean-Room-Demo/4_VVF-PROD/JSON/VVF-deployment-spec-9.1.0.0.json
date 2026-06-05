@@ -1,0 +1,180 @@
+{
+  "version": "9.1.0.0",
+  "ceipEnabled": true,
+  "workflowType": "VVF",
+  "dnsSpec": {
+    "subdomain": "ire.set.lab",
+    "nameservers": ["172.21.0.90"]
+  },
+  "ntpServers": ["10.6.1.1"],
+  "hostSpecs": [
+    {
+      "hostname": "esx16.ire.set.lab",
+      "sslThumbprint": "17:DB:16:C7:F5:C0:F4:70:85:1F:51:06:33:D0:79:1D:35:56:3F:8B:66:99:C0:53:8F:3D:D9:1D:D9:0A:96:6E",
+      "credentials": { "username": "root", "password": "VMware@123!" }
+    },
+    {
+      "hostname": "esx17.ire.set.lab",
+      "sslThumbprint": "BE:FC:94:33:07:8A:7F:54:D2:9F:0F:91:7F:79:06:89:1C:30:17:79:29:DC:0D:C8:14:E6:86:CB:51:BB:AF:92",
+      "credentials": { "username": "root", "password": "VMware@123!" }
+    },
+    {
+      "hostname": "esx18.ire.set.lab",
+      "sslThumbprint": "EF:03:E7:A5:27:E5:B0:13:95:58:A7:EB:66:8F:BD:25:2E:84:E0:ED:F7:17:7D:64:DC:0D:36:43:B5:1F:EA:F2",
+      "credentials": { "username": "root", "password": "VMware@123!" }
+    }
+  ],
+  "networkSpecs": [
+    {
+      "networkType": "MANAGEMENT",
+      "subnet": "10.40.0.0/24",
+      "gateway": "10.40.0.1",
+      "subnetMask": null,
+      "includeIpAddress": null,
+      "includeIpAddressRanges": null,
+      "vlanId": "400",
+      "teamingPolicy": "loadbalance_loadbased",
+      "activeUplinks": ["uplink1", "uplink2"],
+      "standbyUplinks": [],
+      "portGroupKey": "prod-cluster-vds01-pg-esx-mgmt"
+    },
+    {
+      "networkType": "VM_MANAGEMENT",
+      "subnet": "10.40.0.0/24",
+      "gateway": "10.40.0.1",
+      "subnetMask": null,
+      "includeIpAddress": null,
+      "includeIpAddressRanges": null,
+      "vlanId": "400",
+      "teamingPolicy": "loadbalance_loadbased",
+      "activeUplinks": ["uplink1", "uplink2"],
+      "standbyUplinks": [],
+      "portGroupKey": "prod-cluster-vds01-pg-vm-mgmt"
+    },
+    {
+      "networkType": "VMOTION",
+      "subnet": "10.40.1.0/24",
+      "gateway": "10.40.1.1",
+      "subnetMask": null,
+      "includeIpAddress": null,
+      "includeIpAddressRanges": [
+        {
+          "startIpAddress": "10.40.1.231",
+          "endIpAddress": "10.40.1.233"
+        }
+      ],
+      "vlanId": "401",
+      "mtu": 8000,
+      "teamingPolicy": "loadbalance_loadbased",
+      "activeUplinks": ["uplink1", "uplink2"],
+      "standbyUplinks": [],
+      "portGroupKey": "prod-cluster-vds01-pg-vmotion"
+    },
+    {
+      "networkType": "VSAN",
+      "subnet": "10.40.2.0/24",
+      "gateway": "10.40.2.1",
+      "subnetMask": null,
+      "includeIpAddress": null,
+      "includeIpAddressRanges": [
+        {
+          "startIpAddress": "10.40.2.231",
+          "endIpAddress": "10.40.2.233"
+        }
+      ],
+      "vlanId": "402",
+      "mtu": 8000,
+      "teamingPolicy": "loadbalance_loadbased",
+      "activeUplinks": ["uplink1", "uplink2"],
+      "standbyUplinks": [],
+      "portGroupKey": "prod-cluster-vds01-pg-vsan"
+    }
+  ],
+  "vspClusterSpec": {
+    "ipv4Pool": {
+      "ipRange": {
+        "startIpAddress": "10.40.0.17",
+        "endIpAddress": "10.40.0.27"
+      }
+    },
+    "platformFqdn": "prod-vsp01.ire.set.lab",
+    "instanceFqdn": "prod-shared01.ire.set.lab",
+    "fleetFqdn": "prod-fleetlcm.ire.set.lab",
+    "size": "small",
+    "name": "prod-vc-vmsp-01",
+    "internalClusterCidrIpv4": "198.18.0.0/15",
+    "systemUserPassword": "VMware123!VMware123!"
+  },
+  "vcfOperationsSpec": {
+    "applianceSize": "small",
+    "useExistingDeployment": false,
+    "nodes": [
+      {
+        "hostname": "prod-ops01.ire.set.lab",
+        "rootUserPassword": "VMware123!VMware123!",
+        "type": "master"
+      }
+    ],
+    "adminUserPassword": "VMware123!VMware123!"
+  },
+  "licenseServerSpec": {
+    "hostname": "prod-license.ire.set.lab"
+  },
+  "telemetryAcceptorSpec": {},
+  "fleetLcmSpec": {
+    "hostname": "prod-fleetlcm.ire.set.lab"
+  },
+  "sddcLcmSpec": {
+    "hostname": "prod-shared01.ire.set.lab"
+  },
+  "fleetDepotSpec": {},
+  "vcenterSpec": {
+    "vcenterHostname": "prod-vc.ire.set.lab",
+    "vmSize": "small",
+    "storageSize": "lstorage",
+    "ssoDomain": "prod.local",
+    "useExistingDeployment": false,
+    "rootVcenterPassword": "VMware123!VMware123!",
+    "adminUserSsoPassword": "VMware123!VMware123!"
+  },
+  "clusterSpec": {
+    "datacenterName": "prod-dc",
+    "clusterName": "prod-cluster"
+  },
+  "sddcId": "prod-vc",
+  "datastoreSpec": {
+    "vsanSpec": {
+      "vsanDedup": false,
+      "failuresToTolerate": 1,
+      "esaConfig": {
+        "enabled": true
+      },
+      "datastoreName": "prod-cluster-ds-vsan01",
+      "encryptionConfig": {
+        "dataInTransitConfig": {
+          "enable": false
+        }
+      }
+    }
+  },
+  "dvsSpecs": [
+    {
+      "dvsName": "prod-cluster-vds01",
+      "networks": ["MANAGEMENT", "VM_MANAGEMENT", "VMOTION", "VSAN"],
+      "mtu": 8000,
+      "vmnicsToUplinks": [
+        {
+          "id": "vmnic0",
+          "uplink": "uplink1"
+        },
+        {
+          "id": "vmnic1",
+          "uplink": "uplink2"
+        }
+      ],
+      "lagSpecs": null,
+      "nsxTeamings": null,
+      "nsxtSwitchConfig": null
+    }
+  ]
+}
