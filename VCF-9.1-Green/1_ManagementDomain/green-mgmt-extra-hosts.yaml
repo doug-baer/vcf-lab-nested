@@ -1,4 +1,4 @@
-# Network and Host Configuration for Green WLD - HCI build
+# Network and Host Configuration for Green Extra hosts in management domain - HCI build
 ENVIRONMENT_NAME: "green"
 FOLDER_NAME: "vcf910-green"
 DNS_DOMAIN_NAME: "green.set.lab"
@@ -22,4 +22,4 @@ HOSTING_VCENTER_FQDN: "chi-w01-vc01.set.lab"
 HOSTING_VCENTER_USER: "administrator@wld.local"
 HOSTING_VCENTER_PASSWORD: "VMware123!VMware123!"
 ESX_VM_ROOT_PASSWORD: "VMware@123!"
-POWER_ON_ESX_VMS: false # testing the automatic NUMA config -- will manually reconfig before powerup
+POWER_ON_ESX_VMS: true
