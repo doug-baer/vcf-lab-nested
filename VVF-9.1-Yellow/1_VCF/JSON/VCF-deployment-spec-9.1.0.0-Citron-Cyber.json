@@ -114,25 +114,25 @@
     "rootNsxtManagerPassword": "VMware123!VMware123!",
     "nsxtAdminPassword": "VMware123!VMware123!",
     "nsxtAuditPassword": "VMware123!VMware123!",
-    "transportVlanId": 453,
+    "transportVlanId": 463,
     "ipAddressPoolSpec": {
       "name": "mgmt-cl01-tep01",
       "description": "mgmt-cl01-tep01 descr",
       "subnets": [
         {
-          "cidr": "10.77.48.0/24",
-          "gateway": "10.77.48.1",
+          "cidr": "10.77.49.0/24",
+          "gateway": "10.77.49.1",
           "ipAddressPoolRanges": [
-            { "start": "10.77.48.101", "end": "10.77.48.112" }
+            { "start": "10.77.49.101", "end": "10.77.49.112" }
           ]
         }
       ]
     },
     "vpcSpec": {
       "dtgwSpec": {
-        "vlan": 454,
-        "gatewayCidr": "10.45.4.1/24",
-        "externalIpBlockCidr": "10.45.4.0/24"
+        "vlan": 464,
+        "gatewayCidr": "10.77.50.1/24",
+        "externalIpBlockCidr": "10.77.50.0/24"
       }
     },
     "useExistingDeployment": false,
