@@ -1,5 +1,4 @@
-{ 
-  "NOTE": "*** THIS IS NOT YET READY -- NEED VLANS FOR TEPS ***",
+{
   "version": "9.1.0.0",
   "vcfInstanceName": "Citron Cyber",
   "sddcId": "mgmt",
@@ -10,40 +9,40 @@
   "hostSpecs": [
     {
       "hostname": "esx01.yellow.set.lab",
-      "sslThumbprint": "64:1B:75:33:BA:C5:18:50:CF:11:3C:C3:44:B7:A0:9C:50:0F:35:EC:FD:CC:02:FD:4B:9D:58:1E:28:5D:A7:52",
+      "sslThumbprint": "6B:4A:62:A1:00:E1:E2:BE:7B:5C:D3:F2:D0:20:DD:3D:B2:9B:3F:92:72:83:11:56:31:8B:E6:E7:23:9C:9E:28",
       "credentials": { "username": "root", "password": "VMware@123!" }
     },
     {
       "hostname": "esx02.yellow.set.lab",
-      "sslThumbprint": "B1:88:4A:65:F6:B8:28:6D:C1:FF:26:0C:88:F1:E0:BD:87:CC:A9:F9:27:62:16:A8:6B:AA:1E:86:E8:58:7B:18",
+      "sslThumbprint": "A6:0C:F7:34:87:8A:44:3F:52:91:D0:B9:B8:F8:66:52:0A:D5:E2:24:41:04:9A:F1:34:8B:54:B1:BE:54:2D:09",
       "credentials": { "username": "root", "password": "VMware@123!" }
     },
     {
       "hostname": "esx03.yellow.set.lab",
-      "sslThumbprint": "00:35:E9:52:B1:71:67:0E:5A:66:2A:43:EE:11:B8:A8:98:6D:67:99:92:CD:25:6A:D8:E9:43:70:0E:51:AD:4E",
+      "sslThumbprint": "4B:AB:AF:A9:92:48:06:90:74:1B:50:88:42:E8:74:6A:DB:60:2C:CA:02:FA:F6:02:1A:C9:C5:44:B3:D5:D4:87",
       "credentials": { "username": "root", "password": "VMware@123!" }
     },
     {
       "hostname": "esx04.yellow.set.lab",
-      "sslThumbprint": "E2:EE:E2:55:C6:97:D3:24:2F:DA:A5:69:99:1C:8D:34:A0:BA:EE:3A:1E:25:9F:43:DB:88:D4:6B:4C:65:C6:A7",
+      "sslThumbprint": "30:D6:73:6E:20:DD:D4:88:69:5B:CB:A0:D3:C1:8E:A0:C3:0C:6A:62:43:5A:DA:3A:0D:29:4F:57:C3:D8:95:1B",
       "credentials": { "username": "root", "password": "VMware@123!" }
     },
     {
       "hostname": "esx05.yellow.set.lab",
-      "sslThumbprint": "92:2D:E4:1B:2A:83:55:D6:B9:A3:35:F5:EE:A2:45:63:94:75:AB:7B:B3:05:80:E4:A7:CD:2D:22:5D:58:D7:38",
+      "sslThumbprint": "28:A7:7F:97:3B:7B:6F:43:D4:D1:B0:9D:EA:A6:E2:F2:03:CE:30:AA:30:A9:EE:C2:19:9D:F2:5B:90:56:87:9B",
       "credentials": { "username": "root", "password": "VMware@123!" }
     },
     {
       "hostname": "esx06.yellow.set.lab",
-      "sslThumbprint": "D9:B6:A6:DC:19:68:F7:CE:23:62:D6:7B:5D:6A:45:39:DC:ED:47:F6:E5:1E:8A:94:CF:F1:9D:3D:91:6F:DF:0C",
+      "sslThumbprint": "A8:E9:97:E5:FE:64:77:C5:C9:E9:84:39:F5:DC:46:7A:4E:DC:34:8B:9F:6F:28:9D:8F:02:A8:04:51:43:75:69",
       "credentials": { "username": "root", "password": "VMware@123!" }
     }
   ],
   "networkSpecs": [
     {
       "networkType": "MANAGEMENT",
-      "subnet": "10.45.0.0/24",
-      "gateway": "10.45.0.1",
+      "subnet": "10.77.46.0/24",
+      "gateway": "10.77.46.1",
       "vlanId": 460,
       "teamingPolicy": "loadbalance_loadbased",
       "activeUplinks": ["uplink1", "uplink2"],
@@ -53,8 +52,8 @@
     },
     {
       "networkType": "VM_MANAGEMENT",
-      "subnet": "10.45.0.0/24",
-      "gateway": "10.45.0.1",
+      "subnet": "10.77.46.0/24",
+      "gateway": "10.77.46.1",
       "vlanId": 460,
       "teamingPolicy": "loadbalance_loadbased",
       "activeUplinks": ["uplink1", "uplink2"],
@@ -64,10 +63,10 @@
     },
     {
       "networkType": "VMOTION",
-      "subnet": "10.77.46.0/24",
-      "gateway": "10.77.46.1",
+      "subnet": "10.77.47.0/24",
+      "gateway": "10.77.47.1",
       "includeIpAddressRanges": [
-        { "startIpAddress": "10.77.46.201", "endIpAddress": "10.77.46.206" }
+        { "startIpAddress": "10.77.47.201", "endIpAddress": "10.77.47.210" }
       ],
       "vlanId": 461,
       "mtu": 8000,
@@ -79,10 +78,10 @@
     },
     {
       "networkType": "VSAN",
-      "subnet": "10.77.47.0/24",
-      "gateway": "10.77.47.1",
+      "subnet": "10.77.48.0/24",
+      "gateway": "10.77.48.1",
       "includeIpAddressRanges": [
-        { "startIpAddress": "10.77.47.201", "endIpAddress": "10.77.47.206" }
+        { "startIpAddress": "10.77.48.201", "endIpAddress": "10.77.48.210" }
       ],
       "vlanId": 462,
       "mtu": 8000,
@@ -123,7 +122,7 @@
           "cidr": "10.77.49.0/24",
           "gateway": "10.77.49.1",
           "ipAddressPoolRanges": [
-            { "start": "10.77.49.101", "end": "10.77.49.112" }
+            { "start": "10.77.49.101", "end": "10.77.49.120" }
           ]
         }
       ]
@@ -176,7 +175,10 @@
   "clusterSpec": { "datacenterName": "mgmt-dc01", "clusterName": "mgmt-cl01" },
   "datastoreSpec": {
     "vsanSpec": {
+      "vsanDedup": false,
+      "failuresToTolerate": 1,
       "esaConfig": { "enabled": true },
+      "datastoreName": "mgmt-cl01-ds-vsan01",
       "encryptionConfig": {
         "dataInTransitConfig": { "enable": false, "rekeyInterval": 1440 }
       }
