@@ -1,0 +1,154 @@
+{
+  "version": "9.1.0.0",
+  "ceipEnabled": true,
+  "workflowType": "VVF",
+  "dnsSpec": { "subdomain": "yellow.set.lab", "nameservers": ["172.21.0.90"] },
+  "ntpServers": ["10.6.1.1"],
+  "hostSpecs": [
+    {
+      "hostname": "esx11.yellow.set.lab",
+      "sslThumbprint": "A9:DD:9B:F1:7B:45:18:13:34:A0:44:F4:43:51:A5:43:D5:CA:D7:8B:96:56:19:1F:AA:EC:F2:93:40:A0:82:4C",
+      "credentials": { "username": "root", "password": "VMware@123!" }
+    },
+    {
+      "hostname": "esx12.yellow.set.lab",
+      "sslThumbprint": "40:25:62:C6:BA:1E:FB:40:C2:33:58:2F:E7:9D:81:DE:43:D3:B6:93:1E:EB:FF:AE:98:4B:7E:F2:0E:32:5F:80",
+      "credentials": { "username": "root", "password": "VMware@123!" }
+    },
+    {
+      "hostname": "esx13.yellow.set.lab",
+      "sslThumbprint": "99:DD:C9:2A:91:41:5F:0B:6C:C2:A5:EE:08:FF:C1:E4:A3:FE:C1:7B:06:AB:B2:06:59:38:97:91:63:43:4F:EC",
+      "credentials": { "username": "root", "password": "VMware@123!" }
+    }
+  ],
+  "networkSpecs": [
+    {
+      "networkType": "MANAGEMENT",
+      "subnet": "10.77.46.0/24",
+      "gateway": "10.77.46.1",
+      "subnetMask": null,
+      "includeIpAddress": null,
+      "includeIpAddressRanges": null,
+      "vlanId": 460,
+      "teamingPolicy": "loadbalance_loadbased",
+      "activeUplinks": ["uplink1", "uplink2"],
+      "standbyUplinks": [],
+      "portGroupKey": "yellow-prod-vds01-pg-esx-mgmt"
+    },
+    {
+      "networkType": "VM_MANAGEMENT",
+      "subnet": "10.77.46.0/24",
+      "gateway": "10.77.46.1",
+      "subnetMask": null,
+      "includeIpAddress": null,
+      "includeIpAddressRanges": null,
+      "vlanId": 460,
+      "teamingPolicy": "loadbalance_loadbased",
+      "activeUplinks": ["uplink1", "uplink2"],
+      "standbyUplinks": [],
+      "portGroupKey": "yellow-prod-vds01-pg-vm-mgmt"
+    },
+    {
+      "networkType": "VMOTION",
+      "subnet": "10.77.47.0/24",
+      "gateway": "10.77.47.1",
+      "subnetMask": null,
+      "includeIpAddress": null,
+      "includeIpAddressRanges": [
+        { "startIpAddress": "10.77.47.211", "endIpAddress": "10.77.47.214" }
+      ],
+      "vlanId": 461,
+      "mtu": 8000,
+      "teamingPolicy": "loadbalance_loadbased",
+      "activeUplinks": ["uplink1", "uplink2"],
+      "standbyUplinks": [],
+      "portGroupKey": "yellow-prod-vds01-pg-vmotion"
+    },
+    {
+      "networkType": "VSAN",
+      "subnet": "10.77.48.0/24",
+      "gateway": "10.77.48.1",
+      "subnetMask": null,
+      "includeIpAddress": null,
+      "includeIpAddressRanges": [
+        { "startIpAddress": "10.77.48.211", "endIpAddress": "10.77.48.214" }
+      ],
+      "vlanId": 462,
+      "mtu": 8000,
+      "teamingPolicy": "loadbalance_loadbased",
+      "activeUplinks": ["uplink1", "uplink2"],
+      "standbyUplinks": [],
+      "portGroupKey": "yellow-prod-vds01-pg-vsan"
+    }
+  ],
+  "vspClusterSpec": {
+    "ipv4Pool": {
+      "ipRange": {
+        "startIpAddress": "10.77.46.46",
+        "endIpAddress": "10.77.46.61"
+      }
+    },
+    "platformFqdn": "prod-vsp01.yellow.set.lab",
+    "instanceFqdn": "prod-shared01.yellow.set.lab",
+    "fleetFqdn": "prod-fleetlcm.yellow.set.lab",
+    "size": "small",
+    "name": "prod-vc-vmsp-01",
+    "internalClusterCidrIpv4": "198.18.0.0/15",
+    "systemUserPassword": "VMware123!VMware123!"
+  },
+  "vcfOperationsSpec": {
+    "applianceSize": "small",
+    "useExistingDeployment": false,
+    "nodes": [
+      {
+        "hostname": "prod-ops01.yellow.set.lab",
+        "rootUserPassword": "VMware123!VMware123!",
+        "type": "master"
+      }
+    ],
+    "adminUserPassword": "VMware123!VMware123!"
+  },
+  "licenseServerSpec": { "hostname": "prod-license.yellow.set.lab" },
+  "telemetryAcceptorSpec": {},
+  "fleetLcmSpec": { "hostname": "prod-fleetlcm.yellow.set.lab" },
+  "sddcLcmSpec": { "hostname": "prod-shared01.yellow.set.lab" },
+  "fleetDepotSpec": {},
+  "vcenterSpec": {
+    "vcenterHostname": "prod-vc.yellow.set.lab",
+    "vmSize": "small",
+    "storageSize": "lstorage",
+    "ssoDomain": "prod.local",
+    "useExistingDeployment": false,
+    "rootVcenterPassword": "VMware123!VMware123!",
+    "adminUserSsoPassword": "VMware123!VMware123!"
+
+  },
+  "clusterSpec": {
+    "datacenterName": "yellow-dc01",
+    "clusterName": "yellow-prod"
+  },
+  "sddcId": "vc",
+  "datastoreSpec": {
+    "vsanSpec": {
+      "vsanDedup": false,
+      "failuresToTolerate": 1,
+      "esaConfig": { "enabled": true },
+      "datastoreName": "yellow-prod-ds-vsan01",
+      "encryptionConfig": { "dataInTransitConfig": { "enable": false } }
+    }
+  },
+  "dvsSpecs": [
+    {
+      "dvsName": "yellow-prod-vds01",
+      "networks": ["MANAGEMENT", "VM_MANAGEMENT", "VMOTION", "VSAN"],
+      "mtu": 8000,
+      "vmnicsToUplinks": [
+        { "id": "vmnic0", "uplink": "uplink1" },
+        { "id": "vmnic1", "uplink": "uplink2" }
+      ],
+      "lagSpecs": null,
+      "nsxTeamings": null,
+      "nsxtSwitchConfig": null
+    }
+  ]
+}

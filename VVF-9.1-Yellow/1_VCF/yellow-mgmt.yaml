@@ -2,7 +2,7 @@
 ENVIRONMENT_NAME: "yellow"
 FOLDER_NAME: "contractor-yellow"
 DNS_DOMAIN_NAME: "yellow.set.lab"
-SSO_DOMAIN_NAME: "clean.local"
+SSO_DOMAIN_NAME: "vsphere.local"
 START_HOST_NUMBER: 1
 END_HOST_NUMBER: 6
 HOST_RAM_GB: 128
