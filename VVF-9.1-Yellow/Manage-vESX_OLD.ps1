@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
     Consolidated vESX Management Tool for Build and Move operations.
-    Updated: July 20, 2026
+    Updated: May 15, 2026
 
     Requires a YAML-based configuration file
 
@@ -83,23 +83,6 @@ foreach ($Param in $TargetParameters) {
     Set-Variable -Name $Param -Value $Value -Scope Script
 }
 
-foreach ($Param in $TargetParameters) {
-    # Fetch the variable value by its string name
-    $VariableValue = Get-Variable -Name $Param -ValueOnly -ErrorAction SilentlyContinue
-    
-    # Format the output cleanly
-    if ($null -ne $VariableValue) {
-        Write-Host "$(('$' + $Param).PadRight(28)) : $VariableValue"
-    } else {
-        Write-Host "$(('$' + $Param).PadRight(28)) : [NOT FOUND / NULL]" -ForegroundColor Red
-    }
-}
-
-Write-Host "--------------------------------------------------------" -ForegroundColor Gray
-
-#TODO: bail out if the variables don't get set properly -- there seems to be an oddity with Set-Variable 
-
-
 # --- 4. Common or Override Configuration ---
 $iterationList    = ($($START_HOST_NUMBER)..$($END_HOST_NUMBER))
 $GuestOS          = "vmkernel9Guest"
@@ -145,25 +128,14 @@ if ($Build) {
 
         $hostRam = if ($iteration -eq $AUTO_HOST_NUM) { $AUTO_HOST_RAM_GB } else { $HOST_RAM_GB }
 
-        $cores_per_cpu_temp = if ($HOST_CORES_PER_CPU -le 0) { 8 } else { $HOST_CORES_PER_CPU }
-
         Write-Host "Creating Virtual Machine: $VMName..." -ForegroundColor White
-        $vm = New-VM -Name $VMName -ResourcePool $ResourcePool -Datastore $HOSTING_DATASTORE_NAME -GuestId $GuestOS -NumCpu $HOST_CPUS -CoresPerSocket $cores_per_cpu_temp -MemoryGB $hostRam -Location $MyFolder
+        $vm = New-VM -Name $VMName -ResourcePool $ResourcePool -Datastore $HOSTING_DATASTORE_NAME -GuestId $GuestOS -NumCpu $HOST_CPUS -CoresPerSocket $HOST_CORES_PER_CPU -MemoryGB $hostRam -Location $MyFolder
         
         # in 9.1, this is default and it complains about setting it again, but we need this
         $vm | Set-VM -HardwareVersion "vmx-22" -Confirm:$false -ErrorAction SilentlyContinue | Out-Null
         $bootspec = New-Object VMware.Vim.VirtualMachineConfigSpec
         $bootspec.Firmware = [VMware.Vim.GuestOsDescriptorFirmwareType]::efi
         $vm.ExtensionData.ReconfigVM($bootspec)
-
-        if( $HOST_CORES_PER_CPU -eq 0 ) {
-            # this sets the CPU to "assign on startup"
-            $cpuspec = New-Object -TypeName 'VMware.Vim.VirtualMachineConfigSpec'
-            $cpuspec.NumCoresPerSocket = 0
-            $cpuspec.VirtualNuma = New-Object -TypeName 'VMware.Vim.VirtualMachineVirtualNuma'
-            $cpuspec.VirtualNuma.CoresPerNumaNode = 0
-            $vm.ExtensionData.ReconfigVM_Task($cpuspec)
-        }
 
         $vm | Get-NetworkAdapter | Set-Networkadapter -NetworkName $ACCESS_PG_NAME -Confirm:$false | Out-Null
         $vm | New-NetworkAdapter -NetworkName $ACCESS_PG_NAME -Type vmxnet3 -StartConnected | Out-Null
@@ -250,7 +222,6 @@ if ($Move) {
     foreach ( $iteration in $iterationList ) {
         $it = "{0:D2}" -f $iteration # make sure the ids are 2-digits
         $VMName = $ENVIRONMENT_NAME + "-esx" + $it #ensure the VM name references its environment
-        # TODO: handle use case for w02 (protected site) ESXes being on a different mgmt VLAN from everything else
         $ESXiFQDN = "esx" + $it + '.' + $DNS_DOMAIN_NAME
 
         ### check for the vms prior to going crazy
