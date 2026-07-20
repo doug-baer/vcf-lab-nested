@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
     Consolidated vESX Management Tool for Build and Move operations.
-    Updated: May 18, 2026
+    Updated: July 20, 2026
 
     Requires a YAML-based configuration file
 
@@ -59,7 +59,7 @@ $TargetParameters = @(
     "HOST_CORES_PER_CPU",
     "HOST_CPU_RESERVATION_MHZ",
     "AUTO_HOST_NUM",
-    "AUTO_HOST_RAM",
+    "AUTO_HOST_RAM_GB",
     "DISK_SIZE_GB",
     "MGMT_VLAN_NUMBER",
     "ACCESS_PG_NAME",
@@ -143,7 +143,7 @@ if ($Build) {
             continue 
         }
 
-        $hostRam = if ($iteration -eq $AUTO_HOST_NUM) { $HOST_RAM_GB_AUTO } else { $HOST_RAM_GB }
+        $hostRam = if ($iteration -eq $AUTO_HOST_NUM) { $AUTO_HOST_RAM_GB } else { $HOST_RAM_GB }
 
         Write-Host "Creating Virtual Machine: $VMName..." -ForegroundColor White
         $vm = New-VM -Name $VMName -ResourcePool $ResourcePool -Datastore $HOSTING_DATASTORE_NAME -GuestId $GuestOS -NumCpu $HOST_CPUS -CoresPerSocket $HOST_CORES_PER_CPU -MemoryGB $hostRam -Location $MyFolder

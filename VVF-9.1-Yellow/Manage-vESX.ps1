@@ -44,7 +44,7 @@ if (-not $AbsoluteConfigPath) {
 # --- 2. Read and parse the YAML file ---
 Write-Host "Reading configuration from $AbsoluteConfigPath...`n" -ForegroundColor Green
 $YamlContent = Get-Content -Raw -Path $AbsoluteConfigPath
-$Config = ConvertFrom-Yaml $YamlContent
+$ConfigYaml = ConvertFrom-Yaml $YamlContent
 
 ## the parameters we need from the config file
 $TargetParameters = @(
@@ -59,7 +59,7 @@ $TargetParameters = @(
     "HOST_CORES_PER_CPU",
     "HOST_CPU_RESERVATION_MHZ",
     "AUTO_HOST_NUM",
-    "AUTO_HOST_RAM",
+    "AUTO_HOST_RAM_GB",
     "DISK_SIZE_GB",
     "MGMT_VLAN_NUMBER",
     "ACCESS_PG_NAME",
@@ -77,7 +77,7 @@ $TargetParameters = @(
 # --- 3. Populate individual PowerShell variables dynamically ---
 foreach ($Param in $TargetParameters) {
     # Extract the value from the config object (default to $null if missing)
-    $Value = if ($null -ne $Config.$Param) { $Config.$Param } else { $null }
+    $Value = if ($null -ne $ConfigYaml.$Param) { $ConfigYaml.$Param } else { $null }
     
     # Create the variable in the Script scope so it's usable later in the script
     Set-Variable -Name $Param -Value $Value -Scope Script
@@ -126,7 +126,7 @@ if ($Build) {
             continue 
         }
 
-        $hostRam = if ($iteration -eq $AUTO_HOST_NUM) { $HOST_RAM_GB_AUTO } else { $HOST_RAM_GB }
+        $hostRam = if ($iteration -eq $AUTO_HOST_NUM) { $AUTO_HOST_RAM_GB } else { $HOST_RAM_GB }
 
         Write-Host "Creating Virtual Machine: $VMName..." -ForegroundColor White
         $vm = New-VM -Name $VMName -ResourcePool $ResourcePool -Datastore $HOSTING_DATASTORE_NAME -GuestId $GuestOS -NumCpu $HOST_CPUS -CoresPerSocket $HOST_CORES_PER_CPU -MemoryGB $hostRam -Location $MyFolder
