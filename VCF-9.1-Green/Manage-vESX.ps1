@@ -44,7 +44,7 @@ if (-not $AbsoluteConfigPath) {
 # --- 2. Read and parse the YAML file ---
 Write-Host "Reading configuration from $AbsoluteConfigPath...`n" -ForegroundColor Green
 $YamlContent = Get-Content -Raw -Path $AbsoluteConfigPath
-$Config = ConvertFrom-Yaml $YamlContent
+$ConfigYaml = ConvertFrom-Yaml $YamlContent
 
 ## the parameters we need from the config file
 $TargetParameters = @(
@@ -77,7 +77,7 @@ $TargetParameters = @(
 # --- 3. Populate individual PowerShell variables dynamically ---
 foreach ($Param in $TargetParameters) {
     # Extract the value from the config object (default to $null if missing)
-    $Value = if ($null -ne $Config.$Param) { $Config.$Param } else { $null }
+    $Value = if ($null -ne $ConfigYaml.$Param) { $ConfigYaml.$Param } else { $null }
     
     # Create the variable in the Script scope so it's usable later in the script
     Set-Variable -Name $Param -Value $Value -Scope Script

@@ -1,0 +1,78 @@
+{
+  "_comment": "The API that takes this JSON has been deprecated in 9.1 and I am not sure what replaces it yet. This helps me collect the proper config values, though.",
+  "asn": 64619,
+  "edgeAdminPassword": "VMware123!VMware123!",
+  "edgeAuditPassword": "VMware123!VMware123!",
+  "edgeClusterName": "yellow-nsx-edge",
+  "edgeClusterProfileType": "DEFAULT",
+  "edgeClusterType": "NSX-T",
+  "edgeFormFactor": "MEDIUM",
+  "edgeNodeSpecs": [
+    {
+      "clusterId": "REPLACE_WITH_VSPHERE_CLUSTER_ID",
+      "edgeNodeName": "nsx-e1.yelllow.set.lab",
+      "edgeTep1IP": "10.77.50.235/24",
+      "edgeTep2IP": "10.77.50.237/24",
+      "edgeTepGateway": "10.77.50.1",
+      "edgeTepVlan": 464,
+      "interRackCluster": false,
+      "managementGateway": "10.45.0.1",
+      "managementIP": "10.45.0.235/24",
+      "uplinkNetwork": [
+        {
+          "asnPeer": 64555,
+          "bgpPeerPassword": "",
+          "peerIP": "10.77.51.2/24",
+          "uplinkInterfaceIP": "10.77.51.7/24",
+          "uplinkVlan": 465
+        },
+        {
+          "asnPeer": 64555,
+          "bgpPeerPassword": "",
+          "peerIP": "10.77.52.3/24",
+          "uplinkInterfaceIP": "10.77.52.7/24",
+          "uplinkVlan": 466
+        }
+      ],
+      "vmManagementPortgroupName": "cl01-vds-01-pg-vmmgmt",
+      "vmManagementPortgroupVlan": 460
+    },
+    {
+      "clusterId": "REPLACE_WITH_VSPHERE_CLUSTER_ID",
+      "edgeNodeName": "nsx-e2.yelllow.set.lab",
+      "edgeTep1IP": "10.77.50.236/24",
+      "edgeTep2IP": "10.77.50.238/24",
+      "edgeTepGateway": "10.77.50.1",
+      "edgeTepVlan": 464,
+      "interRackCluster": false,
+      "managementGateway": "10.45.0.1",
+      "managementIP": "10.45.0.236/24",
+      "uplinkNetwork": [
+        {
+          "asnPeer": 64555,
+          "bgpPeerPassword": "",
+          "peerIP": "10.77.51.3/24",
+          "uplinkInterfaceIP": "10.77.51.8/24",
+          "uplinkVlan": 465
+        },
+        {
+          "asnPeer": 64555,
+          "bgpPeerPassword": "",
+          "peerIP": "10.77.52.2/24",
+          "uplinkInterfaceIP": "10.77.52.8/24",
+          "uplinkVlan": 466
+        }
+      ],
+      "vmManagementPortgroupName": "cl01-vds-01-pg-vmmgmt",
+      "vmManagementPortgroupVlan": 460
+    }
+  ],
+  "edgeRootPassword": "VMware123!VMware123!",
+  "mtu": 8000,
+  "skipTepRoutabilityCheck": false,
+  "tier0Name": "yellow-t0",
+  "tier0RoutingType": "EBGP",
+  "tier0ServicesHighAvailability": "ACTIVE_STANDBY",
+  "tier1Name": "yellow-t1",
+  "tier1Unhosted": false
+}
