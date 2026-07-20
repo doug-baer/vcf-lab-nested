@@ -7,7 +7,7 @@ START_HOST_NUMBER: 1
 END_HOST_NUMBER: 6
 HOST_RAM_GB: 128
 HOST_CPUS: 48
-HOST_CORES_PER_CPU: 0 # zero should mean "auto assign at startup" in VCF 9.1
+HOST_CORES_PER_CPU: 0 # zero should mean "auto assign at startup"
 HOST_CPU_RESERVATION_MHZ: 20000
 AUTO_HOST_NUM: 6
 AUTO_HOST_RAM_GB: 192

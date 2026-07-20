@@ -157,12 +157,12 @@ if ($Build) {
         $vm.ExtensionData.ReconfigVM($bootspec)
 
         if( $HOST_CORES_PER_CPU -eq 0 ) {
-            # this sets the CPU to "assign on startup"
+            # this sets the number of CPU cores to "assign on startup"
             $cpuspec = New-Object -TypeName 'VMware.Vim.VirtualMachineConfigSpec'
             $cpuspec.NumCoresPerSocket = 0
             $cpuspec.VirtualNuma = New-Object -TypeName 'VMware.Vim.VirtualMachineVirtualNuma'
             $cpuspec.VirtualNuma.CoresPerNumaNode = 0
-            $vm.ExtensionData.ReconfigVM_Task($cpuspec)
+            $vm.ExtensionData.ReconfigVM($cpuspec)
         }
 
         $vm | Get-NetworkAdapter | Set-Networkadapter -NetworkName $ACCESS_PG_NAME -Confirm:$false | Out-Null
@@ -177,7 +177,7 @@ if ($Build) {
         # Enable Nested HV
         $vmConfigSpec = New-Object VMware.Vim.VirtualMachineConfigSpec
         $vmConfigSpec.nestedHVEnabled = $true
-        $vm.ExtensionData.ReconfigVM_Task($vmConfigSpec) | Out-Null
+        $vm.ExtensionData.ReconfigVM($vmConfigSpec) | Out-Null
         
         # --- CONDITIONAL BOOT CONFIGURATION ---
         if (-not $NoOsInstall) {
