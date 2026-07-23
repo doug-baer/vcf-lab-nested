@@ -6,8 +6,8 @@ SSO_DOMAIN_NAME: "vsphere.local"
 START_HOST_NUMBER: 1
 END_HOST_NUMBER: 6
 HOST_RAM_GB: 128
-HOST_CPUS: 32 # this should be OK since the biggest vVM is Automation at 24 vCPUs
-HOST_CORES_PER_CPU: 0 # zero should mean "auto assign at startup"
+HOST_CPUS: 32 # this *should* be OK since the biggest vVM is Automation at 24 vCPUs
+HOST_CORES_PER_CPU: 0 # zero means "auto assign at startup" for Manage-vESX.ps1
 HOST_CPU_RESERVATION_MHZ: 20000 # we can remove this after installation
 AUTO_HOST_NUM: 6
 AUTO_HOST_RAM_GB: 192
@@ -19,7 +19,7 @@ HTTP_INSTALL_HOST_IP: "10.45.0.250"
 HOSTING_CLUSTER_NAME: "chi-w01"
 HOSTING_DATASTORE_NAME: "chi-w01-vsan01"
 HOSTING_VCENTER_FQDN: "chi-w01-vc01.set.lab"
-HOSTING_VCENTER_USER: "administrator@wld.local"
-HOSTING_VCENTER_PASSWORD: "VMware123!VMware123!"
+HOSTING_VCENTER_USER: ""
+HOSTING_VCENTER_PASSWORD: ""
 ESX_VM_ROOT_PASSWORD: "VMware@123!"
 POWER_ON_ESX_VMS: true
