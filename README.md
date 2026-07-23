@@ -25,6 +25,6 @@ This is to simplify physical-layer networking requirements and not require that 
 
 The "yellow" lab environment is a more fluid environment that is intended to follow the main pattern of "blue" and "green," but may be redeployed more freequiently as it is repurposed for various teams' use and requirements. For example, it may be a clean room one week and a multi-cluster with VKS and Automation test the next month. 
 
-At this time, "green" is using the old scripts and model, so "blue" is the most stable while "yellow" is the most up to date.
+At this time, "blue" has just been migrated but is untested, so "green" is the most stable while "yellow" is the most up to date.
 
 July 23, 2026
