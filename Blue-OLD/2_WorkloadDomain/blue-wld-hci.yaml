@@ -1,0 +1,25 @@
+# Network and Host Configuration for Blue WLD - HCI build
+ENVIRONMENT_NAME: "blue"
+FOLDER_NAME: "vcf910-blue"
+DNS_DOMAIN_NAME: "blue.set.lab"
+SSO_DOMAIN_NAME: "clean.local" #only important if management domain
+START_HOST_NUMBER: 7
+END_HOST_NUMBER: 10
+HOST_RAM_GB: 96
+HOST_CPUS: 32
+HOST_CORES_PER_CPU: 0
+HOST_CPU_RESERVATION_MHZ: 0
+AUTO_HOST_NUM: 6
+AUTO_HOST_RAM_GB: 192
+DISK_SIZE_GB: 600 #bigger disks since this is the HCI version of the build
+MGMT_VLAN_NUMBER: 400
+ACCESS_PG_NAME: "vcf9-vlan400"
+TRUNK_PG_NAME: "vcf9-vlans400-407"
+HTTP_INSTALL_HOST_IP: "10.41.0.250"
+HOSTING_CLUSTER_NAME: "chi-w01"
+HOSTING_DATASTORE_NAME: "chi-w01-vsan01"
+HOSTING_VCENTER_FQDN: "chi-w01-vc01.set.lab"
+HOSTING_VCENTER_USER: ""
+HOSTING_VCENTER_PASSWORD: ""
+ESX_VM_ROOT_PASSWORD: "VMware@123!"
+POWER_ON_ESX_VMS: true
