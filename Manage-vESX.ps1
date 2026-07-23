@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS
-    Consolidated vESX Management Tool for Build and Move operations.
-    Updated: July 20, 2026
+    Consolidated vESX Management Tool for vESX VM Build and Move operations.
+    Updated: July 23, 2026
 
     Requires a YAML-based configuration file
 
@@ -145,14 +145,25 @@ if ($Build) {
 
         $hostRam = if ($iteration -eq $AUTO_HOST_NUM) { $AUTO_HOST_RAM_GB } else { $HOST_RAM_GB }
 
+        $cores_per_cpu_temp = if ($HOST_CORES_PER_CPU -le 0) { 8 } else { $HOST_CORES_PER_CPU }
+
         Write-Host "Creating Virtual Machine: $VMName..." -ForegroundColor White
-        $vm = New-VM -Name $VMName -ResourcePool $ResourcePool -Datastore $HOSTING_DATASTORE_NAME -GuestId $GuestOS -NumCpu $HOST_CPUS -CoresPerSocket $HOST_CORES_PER_CPU -MemoryGB $hostRam -Location $MyFolder
+        $vm = New-VM -Name $VMName -ResourcePool $ResourcePool -Datastore $HOSTING_DATASTORE_NAME -GuestId $GuestOS -NumCpu $HOST_CPUS -CoresPerSocket $cores_per_cpu_temp -MemoryGB $hostRam -Location $MyFolder
         
         # in 9.1, this is default and it complains about setting it again, but we need this
         $vm | Set-VM -HardwareVersion "vmx-22" -Confirm:$false -ErrorAction SilentlyContinue | Out-Null
         $bootspec = New-Object VMware.Vim.VirtualMachineConfigSpec
         $bootspec.Firmware = [VMware.Vim.GuestOsDescriptorFirmwareType]::efi
         $vm.ExtensionData.ReconfigVM($bootspec)
+
+        if( $HOST_CORES_PER_CPU -eq 0 ) {
+            # this sets the number of CPU cores to "assign on startup"
+            $cpuspec = New-Object -TypeName 'VMware.Vim.VirtualMachineConfigSpec'
+            $cpuspec.NumCoresPerSocket = 0
+            $cpuspec.VirtualNuma = New-Object -TypeName 'VMware.Vim.VirtualMachineVirtualNuma'
+            $cpuspec.VirtualNuma.CoresPerNumaNode = 0
+            $vm.ExtensionData.ReconfigVM($cpuspec)
+        }
 
         $vm | Get-NetworkAdapter | Set-Networkadapter -NetworkName $ACCESS_PG_NAME -Confirm:$false | Out-Null
         $vm | New-NetworkAdapter -NetworkName $ACCESS_PG_NAME -Type vmxnet3 -StartConnected | Out-Null
@@ -166,7 +177,7 @@ if ($Build) {
         # Enable Nested HV
         $vmConfigSpec = New-Object VMware.Vim.VirtualMachineConfigSpec
         $vmConfigSpec.nestedHVEnabled = $true
-        $vm.ExtensionData.ReconfigVM_Task($vmConfigSpec) | Out-Null
+        $vm.ExtensionData.ReconfigVM($vmConfigSpec) | Out-Null
         
         # --- CONDITIONAL BOOT CONFIGURATION ---
         if (-not $NoOsInstall) {
