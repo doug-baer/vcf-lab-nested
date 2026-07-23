@@ -6,9 +6,9 @@ SSO_DOMAIN_NAME: "vsphere.local"
 START_HOST_NUMBER: 1
 END_HOST_NUMBER: 6
 HOST_RAM_GB: 128
-HOST_CPUS: 48
+HOST_CPUS: 32 # this should be OK since the biggest vVM is Automation at 24 vCPUs
 HOST_CORES_PER_CPU: 0 # zero should mean "auto assign at startup"
-HOST_CPU_RESERVATION_MHZ: 20000
+HOST_CPU_RESERVATION_MHZ: 20000 # we can remove this after installation
 AUTO_HOST_NUM: 6
 AUTO_HOST_RAM_GB: 192
 DISK_SIZE_GB: 600
