@@ -1,28 +1,28 @@
 {
     "hosts": [
         {
-            "fqdn": "esx11.ire.set.lab",
+            "fqdn": "esx15.ire.set.lab",
             "username": "root",
             "password": "VMware@123!",
             "storageType": "VSAN_MAX",
             "networkPoolName": "vcf9-np01"
         },        
 		{
-            "fqdn": "esx12.ire.set.lab",
+            "fqdn": "esx16.ire.set.lab",
             "username": "root",
             "password": "VMware@123!",
             "storageType": "VSAN_MAX",
             "networkPoolName": "vcf9-np01"
         },       
 		{
-            "fqdn": "esx13.ire.set.lab",
+            "fqdn": "esx17.ire.set.lab",
             "username": "root",
             "password": "VMware@123!",
             "storageType": "VSAN_MAX",
             "networkPoolName": "vcf9-np01"
         },
 		{
-            "fqdn": "esx14.ire.set.lab",
+            "fqdn": "esx18.ire.set.lab",
             "username": "root",
             "password": "VMware@123!",
             "storageType": "VSAN_MAX",
