@@ -1,0 +1,63 @@
+# -----------------------------------------------------------------------------
+# Deploy-NestedVcfLab.ps1 Configuration File (base-demo.yaml)
+# -----------------------------------------------------------------------------
+# Copy this file to your project directory and customize values for your lab.
+# Required keys marked below must exist and be non-empty; optional keys are noted.
+# -----------------------------------------------------------------------------
+
+# --- Environment Identification ----------------------------------------------
+ENVIRONMENT_NAME: "vcf-lab-prod-sim"      # Arbitrary name for documentation/debugging
+FOLDER_NAME: "nested-esxi-hosts"         # VM folder name within the datacenter's "vm" root
+DATACENTER_NAME: "DC-01"                 # vCenter datacenter containing cluster/datastore
+
+# --- Hosting Infrastructure ---------------------------------------------------
+HOSTING_VCENTER_FQDN: "vcenter.lab.local"   # Parent vCenter managing this nested lab
+HOSTING_VCENTER_USER: ""                    # Optional: leave blank for credential prompt
+HOSTING_VCENTER_PASSWORD: ""                # Optional: leave blank for credential prompt
+
+HOSTING_CLUSTER_NAME: "LabCluster"          # Cluster in the target datacenter
+HOSTING_DATASTORE_NAME: "datastore1"        # Datastore for nested VM storage
+VDS_NAME: "vDS-Mgmt"                        # Distributed switch for trunk port group
+
+# --- Management Network -------------------------------------------------------
+MGMT_VLAN_NUMBER: 10                         # VLAN ID for management traffic
+TRUNK_PG_NAME: "pg-nested-trunk"             # Trunk port group name (created if missing)
+MGMT_SUBNET_CIDR: "192.168.10.0/24"          # Management subnet for nested hosts
+MGMT_DEFAULT_GATEWAY: "192.168.10.1"         # Gateway for nested host management
+MGMT_IP_START_OFFSET: 100                    # Optional: first IP offset from network address (default=100)
+
+# --- DNS Configuration --------------------------------------------------------
+DNS_DOMAIN_NAME: "lab.local"                 # Domain suffix for nested host FQDNs
+DNS_SERVERS:                                 # List of DNS server IPs (space-separated)
+  - "192.168.10.10"
+  - "192.168.10.11"
+
+# --- Time & Security ----------------------------------------------------------
+NTP_SERVERS:                                 # List of NTP servers (space-separated)
+  - "pool.ntp.org"
+ESX_VM_ROOT_PASSWORD: "P@ssw0rd123!"         # Root password for all nested ESXi VMs
+
+# --- Host Naming & Sizing -----------------------------------------------------
+HOST_NAME_PREFIX: "esx"                      # Prefix for nested host short names
+START_HOST_NUMBER: 1                         # First host index (inclusive)
+END_HOST_NUMBER: 3                           # Last host index (inclusive)
+
+# CPU/RAM allocated to each nested ESXi VM (before nested cores-per-socket)
+HOST_CPUS: 4                                 # Total vCPU count per nested host
+HOST_RAM_GB: 24                              # RAM size per nested host (GB)
+
+# Optional: Cores per socket (affects NUMA topology inside nested ESXi)
+# Leave commented or set to 0 to use default
+# HOST_CORES_PER_CPU: 2
+
+# Optional: CPU reservation in MHz per nested host
+# Leave commented or set to 0 to disable reservation
+# HOST_CPU_RESERVATION_MHZ: 2000
+
+# --- Storage Layout -----------------------------------------------------------
+DISK_COUNT: 3                                # Additional disks beyond boot disk
+DISK_SIZE_GB: 100                            # Size of each additional disk (GB)
+
+# --- Post-Deployment Options --------------------------------------------------
+# Automatically power on hosts after deployment (requires DNS/PTR readiness)
+POWER_ON_ESX_VMS: true                       # Set to false if you want manual control
