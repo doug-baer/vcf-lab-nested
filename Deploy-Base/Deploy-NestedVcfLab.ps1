@@ -122,9 +122,10 @@ function New-TrunkPortGroup {
 
         Write-Verbose "Enabling Forged Transmits and MAC Address Changes on '$PortGroupName'..."
         $secPolicy = Get-VDSecurityPolicy -VDPortgroup $newPg
-        Set-VDSecurityPolicy -SecurityPolicy $secPolicy `
-                             -AllowForgedTransmits $true `
-                             -AllowMacChanges $true `
+        Set-VDSecurityPolicy -Policy $secPolicy `
+                             -ForgedTransmits $true `
+                             -MacChanges $true `
+                             -AllowPromiscuous $true `
                              -Confirm:$false | Out-Null
 
         return $newPg
