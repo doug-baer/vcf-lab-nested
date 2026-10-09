@@ -1,10 +1,10 @@
 <#
 .SYNOPSIS
-    Deploys nested ESXi host virtual machines for VCF 9.1 lab environments based on a YAML configuration file.
+    Deploys nested ESX host virtual machines for VCF 9.1 lab environments based on a YAML configuration file.
 
 .DESCRIPTION
     Automates Phase 1 of standing up a nested VCF lab environment. It parses a YAML setup file,
-    validates hosting infrastructure, provisions VM host shells from a nested ESXi OVA template, customizes 
+    validates hosting infrastructure, provisions VM host shells from a nested ESX OVA template, customizes 
     OVF properties (including vmk0 VLAN tagging, IP, DNS, NTP, and passwords), configures VM hardware 
     (vCPU, RAM, Nested HV, disk layout, dual trunk network adapters), and outputs a summary along with 
     a DNS record creation checklist.
@@ -13,7 +13,7 @@
     Path to the YAML file containing network, host sizing, and location configurations.
 
 .PARAMETER OvaPath
-    Path to the local nested ESXi OVA template file.
+    Path to the local nested ESX OVA template file.
 
 .EXAMPLE
     .\Deploy-NestedVcfLab.ps1 -ConfigFile ".\base-demo.yaml" -OvaPath ".\Nested_ESXi9.1.1.0_Appliance_Template_v1.0.ova"
@@ -25,7 +25,7 @@ param (
     [ValidateNotNullOrEmpty()]
     [string]$ConfigFile,
 
-    [Parameter(Mandatory = $true, HelpMessage = "Path to the local nested ESXi OVA file.")]
+    [Parameter(Mandatory = $true, HelpMessage = "Path to the local nested ESX OVA file.")]
     [ValidateNotNullOrEmpty()]
     [string]$OvaPath
 )
@@ -98,7 +98,7 @@ function New-TrunkPortGroup {
 
         Write-Verbose "Enabling Forged Transmits and MAC Address Changes on '$PortGroupName'..."
         $secPolicy = Get-VDSecurityPolicy -VDPortgroup $newPg
-        Set-VDSecurityPolicy -VDSecurityPolicy $secPolicy `
+        Set-VDSecurityPolicy Policy $secPolicy `
                              -AllowForgedTransmits $true `
                              -AllowMacChanges $true `
                              -Confirm:$false | Out-Null
@@ -182,7 +182,7 @@ try {
     if (-not $datastore) { throw "Target datastore '$($config.HOSTING_DATASTORE_NAME)' not found in cluster '$($config.HOSTING_CLUSTER_NAME)'." }
 
     $targetHost = $cluster | Get-VMHost | Where-Object {$_.ConnectionState -eq "Connected" } | Select-Object -First 1
-    if (-not $targetHost) { throw "No connected ESXi hosts found in cluster '$($config.HOSTING_CLUSTER_NAME)' to perform deployment." }
+    if (-not $targetHost) { throw "No connected ESX hosts found in cluster '$($config.HOSTING_CLUSTER_NAME)' to perform deployment." }
 
     # Verify or Provision Trunk Port Group on specified VDS
     $portGroup = Get-VirtualPortGroup -Name $config.TRUNK_PG_NAME -ErrorAction SilentlyContinue
@@ -198,11 +198,13 @@ try {
     # Verify or Create VM Target Folder
     $targetFolder = Get-Folder -Name $config.FOLDER_NAME -ErrorAction SilentlyContinue
     if (-not $targetFolder) {
+        $datacenter = Get-Datacenter
         Write-Host "Creating VM Folder '$($config.FOLDER_NAME)'..." -ForegroundColor Yellow
         if ($PSCmdlet.ShouldProcess($config.FOLDER_NAME, "Create VM Folder")) {
             try {
-                $vmRootFolder = Get-Folder -NoRecursion -Name "vm" -ErrorAction Stop
-                $targetFolder = New-Folder -Name $config.FOLDER_NAME -Location$vmRootFolder -ErrorAction Stop
+
+                $vmRootFolder = Get-Folder -Name "vm" -Location $datacenter -NoRecursion  -ErrorAction Stop
+                $targetFolder = New-Folder -Name $config.FOLDER_NAME -Location $vmRootFolder -ErrorAction Stop
             } catch {
                 throw "Failed to create target VM Folder '$($config.FOLDER_NAME)':$_"
             }
@@ -210,7 +212,7 @@ try {
             $targetFolder = Get-Folder -NoRecursion -Name "vm" -ErrorAction SilentlyContinue
         }
 
-        if (-not $targetFolder -and -not$WhatIfPreference) {
+        if (-not $targetFolder -and -not $WhatIfPreference) {
             throw "Target VM Folder '$($config.FOLDER_NAME)' does not exist and could not be verified or created."
         }
     }
@@ -236,7 +238,7 @@ try {
 
         try {
             $existingVm = if ($targetFolder) {
-                Get-VM -Name $hostShortName -Location$targetFolder -ErrorAction SilentlyContinue
+                Get-VM -Name $hostShortName -Location $targetFolder -ErrorAction SilentlyContinue
             } else {
                 Get-VM -Name $hostShortName -ErrorAction SilentlyContinue
             }
@@ -255,24 +257,27 @@ try {
                 continue
             }
 
-            if ($PSCmdlet.ShouldProcess($hostShortName, "Import OVA and Configure Nested ESXi")) {
-                $ovfConfig = Get-OvfConfiguration -Ovf$OvaPath
+            if ($PSCmdlet.ShouldProcess($hostShortName, "Import OVA and Configure Nested ESX")) {
+                $ovfConfig = Get-OvfConfiguration -Ovf $OvaPath
 
-                if ($ovfConfig.guestinfo.hostname) { $ovfConfig.guestinfo.hostname.Value =$hostShortName }
-                if ($ovfConfig.guestinfo.ipaddress) { $ovfConfig.guestinfo.ipaddress.Value =$assignedIp }
-                if ($ovfConfig.guestinfo.netmask) { $ovfConfig.guestinfo.netmask.Value =$subnetMask }
-                if ($ovfConfig.guestinfo.gateway) { $ovfConfig.guestinfo.gateway.Value =$config.MGMT_DEFAULT_GATEWAY }
-                if ($ovfConfig.guestinfo.dns) { $ovfConfig.guestinfo.dns.Value = ($config.DNS_SERVERS -join ' ') }
-                if ($ovfConfig.guestinfo.vlan) { $ovfConfig.guestinfo.vlan.Value = [string]$config.MGMT_VLAN_NUMBER }
-                if ($ovfConfig.guestinfo.domainname) { $ovfConfig.guestinfo.domainname.Value =$config.DNS_DOMAIN_NAME }
-                if ($ovfConfig.guestinfo.ntp) { $ovfConfig.guestinfo.ntp.Value = ($config.NTP_SERVERS -join ' ') }
-                if ($ovfConfig.guestinfo.password) { $ovfConfig.guestinfo.password.Value =$config.ESX_VM_ROOT_PASSWORD }
+                if ($ovfConfig.common.guestinfo.hostname) { $ovfConfig.common.guestinfo.hostname.Value = $hostShortName }
+                if ($ovfConfig.common.guestinfo.ipaddress) { $ovfConfig.common.guestinfo.ipaddress.Value = $assignedIp }
+                if ($ovfConfig.common.guestinfo.netmask) { $ovfConfig.common.guestinfo.netmask.Value = $subnetMask }
+                if ($ovfConfig.common.guestinfo.gateway) { $ovfConfig.common.guestinfo.gateway.Value = $config.MGMT_DEFAULT_GATEWAY }
+                if ($ovfConfig.common.guestinfo.dns) { $ovfConfig.common.guestinfo.dns.Value = ($config.DNS_SERVERS -join ' ') }
+                if ($ovfConfig.common.guestinfo.vlan) { $ovfConfig.common.guestinfo.vlan.Value = [string]$config.MGMT_VLAN_NUMBER }
+                if ($ovfConfig.common.guestinfo.domain) { $ovfConfig.common.guestinfo.domain.Value =$config.DNS_DOMAIN_NAME }
+                if ($ovfConfig.common.guestinfo.ntp) { $ovfConfig.common.guestinfo.ntp.Value = ($config.NTP_SERVERS -join ' ') }
+                if ($ovfConfig.common.guestinfo.password) { $ovfConfig.common.guestinfo.password.Value = $config.ESX_VM_ROOT_PASSWORD }
+                if ($ovfConfig.common.guestinfo.ssh) { $ovfConfig.common.guestinfo.ssh.Value = $true }
+                $ovfconfig.NetworkMapping.VM_Network.value = $config.TRUNK_PG_NAME
 
                 Write-Verbose "Importing OVA for $hostShortName..."
-                $vm = Import-vApp -Source$OvaPath `
+                $vm = Import-vApp -Sourc $OvaPath `
                                   -Name $hostShortName `
                                   -OvfConfiguration $ovfConfig `
-                                  -Location $targetFolder `
+                                  -Location $cluster `
+                                  -InventoryLocation $targetFolder `
                                   -VMHost $targetHost `
                                   -Datastore $datastore `
                                   -DiskStorageFormat Thin `
